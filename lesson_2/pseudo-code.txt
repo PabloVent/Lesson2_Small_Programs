@@ -27,4 +27,46 @@ END
 
 PRINT adder int1 and int2
 
+2) a method that takes an array of strings, and returns a string that is all those strings concatenated together
+
+
+INFORMAL PSEUDO CODE
+
+Given a collection of strings 
+
+Iterate through it one by one 
+ - save the first value in a var as the starting value
+  - for each iteration, concatinate the subsequent value to the first value
+after iterating through the collection, return the saved value.
+
+FORMAL PSEUDO CODE
+
+SET saved_str = first value in the collection
+SET iterator = 1
+
+WHILE iterator <= collection size
+  SET saved_str = itself + iterator value
+  iterator = iterator + 1
+
+  PRINT saved_str
+END
+
+def concat_str(arr)
+  count = 0 
+  saved_str = ""
+  arr.each do |word| 
+    saved_str += word
+  end
+  saved_str 
+end
+
+p concat_str(['hi', 'how', 'are', 'you']) 
+
+
+
+
+
+
+
+
 
