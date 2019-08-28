@@ -27,6 +27,12 @@ END
 
 PRINT adder int1 and int2
 
+def adder(int1, int2)
+  int1 + int2
+end
+
+puts adder(3, 5)
+
 2) a method that takes an array of strings, and returns a string that is all those strings concatenated together
 
 
@@ -52,7 +58,6 @@ WHILE iterator <= collection size
 END
 
 def concat_str(arr)
-  count = 0 
   saved_str = ""
   arr.each do |word| 
     saved_str += word
@@ -62,6 +67,51 @@ end
 
 p concat_str(['hi', 'how', 'are', 'you']) 
 
+
+3) a method that takes an array of integers, and returns a new array with every other element
+
+
+INFORMAL PSEUDO CODE
+
+Given a collection of itegers
+
+create an empty array and save it to a var
+iterate through the collection
+  - for each iteration, select only the even iteration values
+  - transfer them to the empty array
+
+after iterating through the array of ints, return the new array generated.
+
+FORMAL PSEUDO CODE
+
+SET iterator = 1
+SET new_arr = empty
+
+WHILE iterator <= array length
+  
+  IF iterator is odd 
+    select it and move it to new_arr
+  ELSE
+    move to the next iteration
+iterator = iterator + 1
+
+PRINT new_arr
+
+END
+
+def skip_element(arr)
+  new_arr = []
+  arr.select do |num|
+    if num.odd?
+      new_arr << num
+    else
+      next
+    end
+    new_arr
+  end
+end
+
+p skip_element([1,2,3,4,5,6,7,8,9])
 
 
 
