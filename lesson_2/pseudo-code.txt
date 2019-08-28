@@ -1,0 +1,30 @@
+keyword                        meaning
+
+START                                start of the program
+SET                                     sets a variable we can use for later
+GET                                     retrieve input from user
+PRINT                                 displays output to user
+READ                                   retrieve value from variable
+IF / ELSE IF / ELSE           show conditional branches in logic
+WHILE                                show looping logic
+END                                     end of the program
+DEF                                      define a method
+
+1) a method that returns the sum of two integers
+
+INFORMAL PSEUDO CODE
+
+Define a method that take 2 integers and add them
+  - Acess the integers from inside the method and add them up.
+  - return the result of the addition 
+  - call the method and get the returned value.
+        
+FORMAL PSEUDO CODE
+
+DEF adder int1 and int2
+  int1 + int2
+END
+
+PRINT adder int1 and int2
+
+
