@@ -8,21 +8,21 @@ end
 
 def valid_number?(num)
   num.to_i() != 0
-end  
+end
 
 def operation_to_message(op) # returns result of case statement
-  case op 
-    when '1' then 'Adding'
-    when '2' then 'Subtracting'
-    when '3' then 'Multiplying'
-    when '4' then 'Dividing'
+  case op
+  when '1' then 'Adding'
+  when '2' then 'Subtracting'
+  when '3' then 'Multiplying'
+  when '4' then 'Dividing'
   end
 end
 
 prompt("Welcome to calculator!! Enter your name:")
 
 name = ""
-loop do 
+loop do
   name = Kernel.gets().chomp()
   if name.empty?
     prompt("Make sure you enter your name please...")
@@ -34,7 +34,6 @@ end
 prompt("Hi #{name}")
 
 loop do # main loop
-
   first_num = ''
   loop do
     prompt("What's your 1st number...")
@@ -48,7 +47,7 @@ loop do # main loop
   end
 
   second_num = ''
-  loop do 
+  loop do
     prompt("What's your 2st number...")
     second_num = Kernel.gets().chomp()
 
@@ -69,7 +68,7 @@ loop do # main loop
   prompt(operator_prompt)
 
   operation = ''
-  loop do 
+  loop do
     operation = Kernel.gets().chomp()
     if %w(1 2 3 4).include?(operation)
       break
@@ -81,12 +80,11 @@ loop do # main loop
   prompt("#{operation_to_message(operation)} the two numbers...")
 
   result = case operation
-
-               when '1'  then first_num.to_i() + second_num.to_i()
-               when '2' then first_num.to_i() - second_num.to_i()
-               when '3' then first_num.to_i() * second_num.to_i()
-               when '4' then first_num.to_f() / second_num.to_f()
-  end
+           when '1' then first_num.to_i() + second_num.to_i()
+           when '2' then first_num.to_i() - second_num.to_i()
+           when '3' then first_num.to_i() * second_num.to_i()
+           when '4' then first_num.to_f() / second_num.to_f()
+           end
 
   prompt("The result is #{result}")
   prompt("do you want to perform another operation?, say 'Y' if yes...")
@@ -95,7 +93,3 @@ loop do # main loop
 end
 
 prompt("Thanks for using calculator, goodbye!!!")
-
-
-
-
