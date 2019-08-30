@@ -14,10 +14,10 @@ DEF                                      define a method
 
 INFORMAL PSEUDO CODE
 
-Define a method that take 2 integers and add them
-  - Acess the integers from inside the method and add them up.
+Create a method that takes two integers and add them
+  - access the integers in the method and add them up.
   - return the result of the addition 
-  - call the method and get the returned value.
+  - call the method and output the result.
         
 FORMAL PSEUDO CODE
 
@@ -25,10 +25,10 @@ DEF adder int1 and int2
   int1 + int2
 END
 
-PRINT adder int1 and int2
+PRINT adder num1 and num2
 
-def adder(int1, int2)
-  int1 + int2
+def adder(num1, num2)
+  num1 + num2
 end
 
 puts adder(3, 5)
@@ -42,16 +42,16 @@ Given a collection of strings
 
 Iterate through it one by one 
  - save the first value in a var as the starting value
-  - for each iteration, concatinate the subsequent value to the first value
-after iterating through the collection, return the saved value.
+  - for each iteration, concatinate the subsequent value to the starting value
+after iterating through the entire collection, return the saved value.
 
 FORMAL PSEUDO CODE
 
-SET saved_str = first value in the collection
+SET saved_str = empty string
 SET iterator = 1
 
 WHILE iterator <= collection size
-  SET saved_str = itself + iterator value
+  saved_str = saved_string + iterator value @ position 0 (first iteration)
   iterator = iterator + 1
 
   PRINT saved_str
@@ -73,11 +73,11 @@ p concat_str(['hi', 'how', 'are', 'you'])
 
 INFORMAL PSEUDO CODE
 
-Given a collection of itegers
+Given a collection of integers
 
 create an empty array and save it to a var
 iterate through the collection
-  - for each iteration, select only the even iteration values
+  - for each iteration, select only the arr values for which iteration is either odd or even.
   - transfer them to the empty array
 
 after iterating through the array of ints, return the new array generated.
@@ -86,32 +86,37 @@ FORMAL PSEUDO CODE
 
 SET iterator = 1
 SET new_arr = empty
+SET idx_position = 0
 
 WHILE iterator <= array length
   
-  IF iterator is odd 
-    select it and move it to new_arr
+  IF iterator is odd # (or even)
+    new_arr << idx_position value
   ELSE
     move to the next iteration
-iterator = iterator + 1
+    idx_position += 1
+    iterator = iterator + 1
 
 PRINT new_arr
 
 END
 
-def skip_element(arr)
+def skip_elem(arr)
   new_arr = []
-  arr.select do |num|
-    if num.odd?
-      new_arr << num
-    else
-      next
+  idx = 0
+  counter = 1
+
+  while counter <= arr.size
+    if counter.odd?
+      new_arr << arr[idx]
     end
-    new_arr
+      idx += 1
+      counter += 1
   end
+  new_arr
 end
 
-p skip_element([1,2,3,4,5,6,7,8,9])
+p skip_elem([12, 42, 101, 45, 99, 2345, 123])
 
 
 
