@@ -34,7 +34,6 @@ def operation_to_message(op)
                 end
   op_selected
 end
-
 # prompt(MESSAGES['welcome'])
 prompt(messages('welcome', LANGUAGE))
 
@@ -103,8 +102,8 @@ loop do # main loop
     end
   end
 
-  # prompt(MESSAGES [LANGUAGE] ['op_to_msg'] % { name_param: "#{operation_to_message(operation)}" })
-  prompt(messages('op_to_msg', LANGUAGE))
+  # prompt(MESSAGES [LANGUAGE] ['op_to_msg'] % { name_param: op_selected })
+  prompt(messages('op_to_msg' % { name_param: operation_to_message(operation) }, LANGUAGE))
 
   result = case operation
            when '1' then first_num.to_i() + second_num.to_i()
