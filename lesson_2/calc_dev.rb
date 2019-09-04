@@ -1,4 +1,5 @@
 require 'yaml'
+require 'pry'
 
 LANGUAGE = 'en'
 
@@ -24,7 +25,7 @@ def float?(input)
   /\d/.match(input) && /^-\d*\.?\d*$/.match(input)
 end
 
-def operation_to_message(op) # returns result of case statement
+def operation_to_message(op) 
   op_selected = case op
                 when '1' then 'Adding'
                 when '2' then 'Subtracting'
@@ -34,46 +35,50 @@ def operation_to_message(op) # returns result of case statement
   op_selected
 end
 
-prompt(MESSAGES['welcome'])
-# prompt(messages('welcome', LANGUAGE))
+# prompt(MESSAGES['welcome'])
+prompt(messages('welcome', LANGUAGE))
 
 name = ""
 loop do
   name = Kernel.gets().chomp()
   if name.empty?
-    prompt(MESSAGES['valid_name'])
-    # prompt(messages('valid_name'), LANGUAGE)
+    # prompt(MESSAGES['valid_name'])
+    prompt(messages('valid_name', LANGUAGE))
   else
     break
   end
 end
 
-# prompt("Hi #{name}")
-prompt(MESSAGES["greet"] % { name_param: name })
+# prompt(MESSAGES['greet'] % { name_param: name })
 # prompt(messages('greet', LANGUAGE))
+prompt(MESSAGES[LANGUAGE]['greet'] % { name_param: name })
 
 loop do # main loop
   first_num = ''
   loop do
-    prompt(MESSAGES['first_number'])
+    # prompt(MESSAGES['first_number'])
+    prompt(messages('first_number', LANGUAGE))
     first_num = Kernel.gets().chomp()
 
     if valid_number?(first_num)
       break
     else
-      prompt(MESSAGES['invalid_number'])
+      # prompt(MESSAGES['invalid_number'])
+      prompt(messages('invalid_number', LANGUAGE))
     end
   end
 
   second_num = ''
   loop do
-    prompt(MESSAGES['second_number'])
+    # prompt(MESSAGES['second_number'])
+    prompt(messages('second_number', LANGUAGE))
     second_num = Kernel.gets().chomp()
 
     if valid_number?(second_num)
       break
     else
-      prompt(MESSAGES['invalid_number'])
+      # prompt(MESSAGES['invalid_number'])
+      prompt(messages('invalid_number', LANGUAGE))
     end
   end
 
@@ -93,13 +98,13 @@ loop do # main loop
     if %w(1 2 3 4).include?(operation)
       break
     else
-      prompt(MESSAGES['choose_one_option'])
+      # prompt(MESSAGES['choose_one_option'])
+      prompt(message('choose_one_option', LANGUAGE))
     end
   end
 
-  # prompt("#{operation_to_message(operation)} the two numbers...")
-  prompt(MESSAGES['op_to_msg'] % \
-    { name_param: operation_to_message(operation) })
+  # prompt(MESSAGES [LANGUAGE] ['op_to_msg'] % { name_param: "#{operation_to_message(operation)}" })
+  prompt(messages('op_to_msg', LANGUAGE))
 
   result = case operation
            when '1' then first_num.to_i() + second_num.to_i()
@@ -107,8 +112,9 @@ loop do # main loop
            when '3' then first_num.to_i() * second_num.to_i()
            when '4' then first_num.to_f() / second_num.to_f()
            end
-  # prompt("The result is #{result}")
-  prompt(MESSAGES['result'] % { name_param: result })
+
+  # prompt(MESSAGES['result'] % { name_param: result })
+  prompt("The result is #{result}")
   prompt(MESSAGES['continue'])
 
   continue = Kernel.gets().chomp()

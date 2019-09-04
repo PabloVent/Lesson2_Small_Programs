@@ -99,7 +99,7 @@ WHILE iterator <= array length
   IF iterator is odd # (or even)
     new_arr << idx_position value
   ELSE
-    move to the next iteration
+    move to the next iteration by
     idx_position += 1
     iterator = iterator + 1
 
