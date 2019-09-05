@@ -98,7 +98,7 @@ loop do # main loop
       break
     else
       prompt(MESSAGES['choose_one_option'])
-      prompt(message('choose_one_option', LANGUAGE))
+      prompt(messages('choose_one_option', LANGUAGE))
     end
   end
 
