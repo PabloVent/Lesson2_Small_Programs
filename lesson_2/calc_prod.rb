@@ -25,7 +25,7 @@ def float?(input)
   /\d/.match(input) && /^-\d*\.?\d*$/.match(input)
 end
 
-def operation_to_message(op) 
+def operation_to_message(op)
   op_selected = case op
                 when '1' then 'Adding'
                 when '2' then 'Subtracting'
@@ -94,7 +94,7 @@ loop do # main loop
     end
   end
 
-   prompt(operation_to_message(operation), messages('op_to_msg', LANGUAGE))
+  prompt(operation_to_message(operation), messages('op_to_msg', LANGUAGE))
 
   result = case operation
            when '1' then first_num.to_i() + second_num.to_i()
