@@ -9,8 +9,8 @@ def messages(message, lang='en')
   MESSAGES[lang][message]
 end
 
-def prompt(msg)
-  Kernel.puts "=> #{msg}"
+def prompt(msg, msg2=nil)
+  Kernel.puts "=> #{msg} #{msg2}"
 end
 
 def valid_number?(input)
@@ -97,13 +97,16 @@ loop do # main loop
     if %w(1 2 3 4).include?(operation)
       break
     else
-      # prompt(MESSAGES['choose_one_option'])
+      prompt(MESSAGES['choose_one_option'])
       prompt(message('choose_one_option', LANGUAGE))
     end
   end
 
   # prompt(MESSAGES [LANGUAGE] ['op_to_msg'] % { name_param: op_selected })
-  prompt(messages('op_to_msg' % { name_param: operation_to_message(operation) }, LANGUAGE))
+  # prompt(messages('op_to_msg' % { name_param: operation_to_message(operation) }, LANGUAGE))
+   # puts "#{operation_to_message(operation)}"
+   prompt(operation_to_message(operation), messages('op_to_msg', LANGUAGE))
+   # prompt(messages('op_to_msg', LANGUAGE))
 
   result = case operation
            when '1' then first_num.to_i() + second_num.to_i()
@@ -114,7 +117,7 @@ loop do # main loop
 
   # prompt(MESSAGES['result'] % { name_param: result })
   prompt("The result is #{result}")
-  prompt(MESSAGES['continue'])
+  prompt(messages('continue', LANGUAGE))
 
   continue = Kernel.gets().chomp()
   break unless continue.downcase().start_with?('y')
