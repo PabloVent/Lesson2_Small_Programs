@@ -6,10 +6,10 @@ en:
   invalid_number: "ups...looks like that's not a valid number..."
   second_number: "What's your 2nd number..."
   choose_one_option: "You must choose 1, 2, 3 or 4..."
-  # op_to_msg: '%{name_param} the two numbers...'
   op_to_msg: 'the two numbers...'
-  result: "The result is %{name_param}."
+  # result: "The result is %{name_param}."
   continue: "do you want to perform another operation?, say 'Y' if yes..."
+  lang: "Please choose your language / Vinsamlegast veldu tungumál (type 'en' for english / 'is' fyrir íslensku)"
 is:
   welcome: "Verið velkomin í Reiknivél! Sláðu inn nafnið þitt:"
   valid_name: "Gakktu úr skugga um að slá inn gilt nafn."
@@ -18,6 +18,6 @@ is:
   invalid_number: "ups...lítur út fyrir að það sé ekki gilt númer..."
   second_number: "Hvað er annað númerið þitt..."
   choose_one_option: "Þú verður að velja 1, 2, 3 or 4..."
-  op_to_msg: '%{name_param} tölurnar tvær...'
-  result: "Niðurstaðan er %{name_param}."
+  op_to_msg: 'tölurnar tvær...'
+  # result: "Niðurstaðan er %{name_param}."
   continue: "viltu framkvæma aðra aðgerð?, segðu 'J' ef já..."
