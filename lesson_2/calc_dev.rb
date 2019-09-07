@@ -25,35 +25,54 @@ def float?(input)
   /\d/.match(input) && /^-\d*\.?\d*$/.match(input)
 end
 
-def operation_to_message(op)
-  op_selected = case op
-                when '1' then 'Adding'
-                when '2' then 'Subtracting'
-                when '3' then 'Multiplying'
-                when '4' then 'Dividing'
-                end
+def valid_lang?(lang_format)
+  /^[en]+$/.match(lang_format) || /^[is]+$/.match(lang_format)
+end
+
+def valid_name?(name_str)
+  /[a-zA-Z]\p{L}/.match(name_str)
+end
+
+def op_to_msg(op, lang='en')
+  if lang == 'en'
+    op_selected = case op
+                  when '1' then 'Adding'
+                  when '2' then 'Subtracting'
+                  when '3' then 'Multiplying'
+                  when '4' then 'Dividing'
+                  end
+  else
+    op_selected = case op
+                  when '1' then 'Bæta við'
+                  when '2' then 'Draga frá'
+                  when '3' then 'Fjölga sér'
+                  when '4' then 'Skipting'
+                  end
+  end
   op_selected
 end
 # prompt(MESSAGES['welcome'])
-prompt(messages('lang', language))
+prompt(messages('lang_option', language))
 
 language_choice = ""
 loop do
-  language_choice = Kernel.gets().chomp()
-  if language_choice.downcase == 'en'
+  language_choice = Kernel.gets().chomp().downcase()
+  if language_choice.empty? || !(valid_lang?(language_choice))
+    prompt(messages('valid_lang', language)) # when language is empty, method on line 9 cannot use nil.
+    next
+  elsif valid_lang?(language_choice) && language_choice == language
     language
-  else
+  elsif valid_lang?(language_choice) && language_choice != language
     language = 'is'
   end
-  break
+  break if language == 'en' || language == 'is' 
 end
-
 prompt(messages('welcome', language))
 
 name = ""
 loop do
   name = Kernel.gets().chomp()
-  if name.empty?
+  if name.empty? || !(valid_name?(name))
     # prompt(MESSAGES['valid_name'])
     prompt(messages('valid_name', language))
   else
@@ -97,10 +116,10 @@ loop do # main loop
   if language == 'en'
     operator_prompt = <<-MSG
       What operation would you like to perform?
-      1) add
-      2) subtract
-      3) multiply
-      4) divide
+        1) add
+        2) subtract
+        3) multiply
+        4) divide
     MSG
   elsif language == 'is'
     operator_prompt = <<-MSG
@@ -129,7 +148,7 @@ loop do # main loop
   # prompt(messages('op_to_msg' % \
   # { name_param: operation_to_message(operation) }, LANGUAGE))
   # puts "#{operation_to_message(operation)}"
-  prompt(operation_to_message(operation), messages('op_to_msg', language))
+  prompt(op_to_msg(operation, language), messages('op_to_msg', language))
   # prompt(messages('op_to_msg', LANGUAGE))
 
   result = case operation
@@ -146,8 +165,8 @@ loop do # main loop
   prompt(messages('continue', language))
 
   continue = Kernel.gets().chomp()
-  break unless continue.downcase().start_with?('y')
+  break if continue.downcase().start_with?('n') && language == 'en' \
+  || continue.downcase().start_with?('n') && language == 'is'
 end
 
-prompt("Thanks for using calculator, goodbye!!!") if language == 'en'
-prompt("Takk fyrir að nota reiknivél, bless!!!") if language == 'is'
+prompt(messages('farewell', language))

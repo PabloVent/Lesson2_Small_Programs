@@ -1,15 +1,16 @@
 en:
   welcome: "Welcome to Calculator! Enter your name:"
   valid_name: "Make sure to enter a valid name."
+  valid_lang: "Make sure to enter either 'en' for English or 'is' for Icelandic..."
   greet: 'Hi %{name_param}!'
   first_number: "What's your 1st number..."
   invalid_number: "ups...looks like that's not a valid number..."
   second_number: "What's your 2nd number..."
   choose_one_option: "You must choose 1, 2, 3 or 4..."
   op_to_msg: 'the two numbers...'
-  # result: "The result is %{name_param}."
-  continue: "do you want to perform another operation?, say 'Y' if yes..."
-  lang: "Please choose your language / Vinsamlegast veldu tungumál (type 'en' for english / 'is' fyrir íslensku)"
+  continue: "do you want to perform another operation?, say 'Y' if yes, otherwise say 'N'"
+  lang_option: "Choose your language / Veldu tungumál (type 'en' for english / 'is' fyrir íslensku)"
+  farewell: "Thanks for using calculator, goodbye!!!"
 is:
   welcome: "Verið velkomin í Reiknivél! Sláðu inn nafnið þitt:"
   valid_name: "Gakktu úr skugga um að slá inn gilt nafn."
@@ -19,5 +20,5 @@ is:
   second_number: "Hvað er annað númerið þitt..."
   choose_one_option: "Þú verður að velja 1, 2, 3 or 4..."
   op_to_msg: 'tölurnar tvær...'
-  # result: "Niðurstaðan er %{name_param}."
-  continue: "viltu framkvæma aðra aðgerð?, segðu 'J' ef já..."
+  continue: "viltu framkvæma aðra aðgerð?, segðu 'N' ef já,  segja annars 'N'"
+  farewell: "Takk fyrir að nota reiknivél, bless!!!"
