@@ -30,7 +30,7 @@ def valid_lang?(lang_format)
 end
 
 def valid_name?(name_str)
-  /[a-zA-Z]\p{L}/.match(name_str)
+  /^[a-zA-Z]\p{L}+$/.match(name_str)
 end
 
 def op_to_msg(op, lang='en')
