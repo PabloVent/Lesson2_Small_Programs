@@ -30,7 +30,7 @@ def valid_lang?(lang_format)
 end
 
 def valid_name?(name_str)
-  /^[a-zA-Z]\p{L}+$/.match(name_str)
+  /^[a-zA-Z]\p{L}+$/.match(name_str) || /^\p{L}[a-zA-Z]+$/.match(name_str)
 end
 
 def op_to_msg(op, lang='en')
@@ -56,7 +56,7 @@ prompt(messages('lang_option', language))
 
 language_choice = ""
 loop do
-  language_choice = Kernel.gets().chomp().downcase()
+  language_choice = Kernel.gets().chomp().downcase().strip()
   if language_choice.empty? || !(valid_lang?(language_choice))
     prompt(messages('valid_lang', language)) # when language is empty, method on line 9 cannot use nil.
     next
@@ -71,7 +71,7 @@ prompt(messages('welcome', language))
 
 name = ""
 loop do
-  name = Kernel.gets().chomp()
+  name = Kernel.gets().chomp().strip()
   if name.empty? || !(valid_name?(name))
     # prompt(MESSAGES['valid_name'])
     prompt(messages('valid_name', language))
@@ -89,7 +89,7 @@ loop do # main loop
   loop do
     # prompt(MESSAGES['first_number'])
     prompt(messages('first_number', language))
-    first_num = Kernel.gets().chomp()
+    first_num = Kernel.gets().chomp().strip()
 
     if valid_number?(first_num)
       break
@@ -103,7 +103,7 @@ loop do # main loop
   loop do
     # prompt(MESSAGES['second_number'])
     prompt(messages('second_number', language))
-    second_num = Kernel.gets().chomp()
+    second_num = Kernel.gets().chomp().strip()
 
     if valid_number?(second_num)
       break
@@ -135,7 +135,7 @@ loop do # main loop
 
   operation = ''
   loop do
-    operation = Kernel.gets().chomp()
+    operation = Kernel.gets().chomp().strip()
     if %w(1 2 3 4).include?(operation)
       break
     else
@@ -164,7 +164,7 @@ loop do # main loop
   prompt("Niðurstaðan er #{result}") if language == 'is'
   prompt(messages('continue', language))
 
-  continue = Kernel.gets().chomp()
+  continue = Kernel.gets().chomp().strip()
   break if continue.downcase().start_with?('n') && language == 'en' \
   || continue.downcase().start_with?('n') && language == 'is'
 end
