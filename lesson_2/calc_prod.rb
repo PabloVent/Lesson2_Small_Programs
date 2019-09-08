@@ -1,6 +1,6 @@
 require 'yaml'
 
-LANGUAGE = 'en'
+language = 'en'
 
 MESSAGES = YAML.load_file('calculator_messages.yml')
 
@@ -24,76 +24,119 @@ def float?(input)
   /\d/.match(input) && /^-\d*\.?\d*$/.match(input)
 end
 
-def operation_to_message(op)
-  op_selected = case op
-                when '1' then 'Adding'
-                when '2' then 'Subtracting'
-                when '3' then 'Multiplying'
-                when '4' then 'Dividing'
-                end
+def valid_lang?(lang_format)
+  /^[en]+$/.match(lang_format) || /^[is]+$/.match(lang_format)
+end
+
+def valid_name?(name_str)
+  /^[a-zA-Z]\p{L}+$/.match(name_str) || /^\p{L}[a-zA-Z]+$/.match(name_str)
+end
+
+# rubocop:disable Metrics/CyclomaticComplexity
+def op_to_ms(op, lang='en')
+  if lang == 'en'
+    op_selected = case op
+                  when '1' then 'Adding'
+                  when '2' then 'Subtracting'
+                  when '3' then 'Multiplying'
+                  when '4' then 'Dividing'
+                  end
+  else
+    op_selected = case op
+                  when '1' then 'Bæta við'
+                  when '2' then 'Draga frá'
+                  when '3' then 'Fjölga sér'
+                  when '4' then 'Skipting'
+                  end
+  end
   op_selected
 end
-prompt(messages('welcome', LANGUAGE))
+# rubocop:enable Metrics/CyclomaticComplexity
+prompt(messages('lang_option', language))
+
+language_choice = ""
+loop do
+  language_choice = Kernel.gets().chomp().downcase().strip()
+  if language_choice.empty? || !(valid_lang?(language_choice))
+    prompt(messages('valid_lang', language))
+    next
+  elsif valid_lang?(language_choice) && language_choice == language
+    language
+  elsif valid_lang?(language_choice) && language_choice != language
+    language = 'is'
+  end
+  break if language == 'en' || language == 'is'
+end
+prompt(messages('welcome', language))
 
 name = ""
 loop do
-  name = Kernel.gets().chomp()
-  if name.empty?
-    prompt(messages('valid_name', LANGUAGE))
+  name = Kernel.gets().chomp().strip()
+  if name.empty? || !(valid_name?(name))
+    prompt(messages('valid_name', language))
   else
     break
   end
 end
 
-prompt(MESSAGES[LANGUAGE]['greet'] % { name_param: name })
+prompt(MESSAGES[language]['greet'] % { name_param: name })
 
 loop do # main loop
   first_num = ''
   loop do
-    prompt(messages('first_number', LANGUAGE))
-    first_num = Kernel.gets().chomp()
+    prompt(messages('first_number', language))
+    first_num = Kernel.gets().chomp().strip()
 
     if valid_number?(first_num)
       break
     else
-      prompt(messages('invalid_number', LANGUAGE))
+      prompt(messages('invalid_number', language))
     end
   end
 
   second_num = ''
   loop do
-    prompt(messages('second_number', LANGUAGE))
-    second_num = Kernel.gets().chomp()
+    prompt(messages('second_number', language))
+    second_num = Kernel.gets().chomp().strip()
 
     if valid_number?(second_num)
       break
     else
-      prompt(messages('invalid_number', LANGUAGE))
+      prompt(messages('invalid_number', language))
     end
   end
 
-  operator_prompt = <<-MSG
-    What operation would you like to perform?
-    1) add
-    2) subtract
-    3) multiply
-    4) divide
-  MSG
+  if language == 'en'
+    operator_prompt = <<-MSG
+      What operation would you like to perform?
+        1) add
+        2) subtract
+        3) multiply
+        4) divide
+    MSG
+  elsif language == 'is'
+    operator_prompt = <<-MSG
+      Hvaða aðgerð myndir þú vilja framkvæma?
+        1) viðbót
+        2) frádráttur
+        3) margföldun
+        4) deild
+    MSG
+  end
 
   prompt(operator_prompt)
 
   operation = ''
   loop do
-    operation = Kernel.gets().chomp()
+    operation = Kernel.gets().chomp().strip()
     if %w(1 2 3 4).include?(operation)
       break
     else
-      prompt(MESSAGES['choose_one_option'])
-      prompt(messages('choose_one_option', LANGUAGE))
+      prompt(messages('choose_one_option', language))
     end
   end
 
-  prompt(operation_to_message(operation), messages('op_to_msg', LANGUAGE))
+  prompt(op_to_ms(operation, language), messages('op_to_ms', language))
 
   result = case operation
            when '1' then first_num.to_i() + second_num.to_i()
@@ -102,11 +145,13 @@ loop do # main loop
            when '4' then first_num.to_f() / second_num.to_f()
            end
 
-  prompt("The result is #{result}")
-  prompt(messages('continue', LANGUAGE))
+  prompt("The result is #{result}") if language == 'en'
+  prompt("Niðurstaðan er #{result}") if language == 'is'
+  prompt(messages('continue', language))
 
-  continue = Kernel.gets().chomp()
-  break unless continue.downcase().start_with?('y')
+  continue = Kernel.gets().chomp().strip()
+  break if continue.downcase().start_with?('n') && language == 'en' \
+  || continue.downcase().start_with?('n') && language == 'is'
 end
 
-prompt("Thanks for using calculator, goodbye!!!")
+prompt(messages('farewell', language))

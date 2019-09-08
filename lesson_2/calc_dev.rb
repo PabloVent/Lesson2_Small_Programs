@@ -33,7 +33,8 @@ def valid_name?(name_str)
   /^[a-zA-Z]\p{L}+$/.match(name_str) || /^\p{L}[a-zA-Z]+$/.match(name_str)
 end
 
-def op_to_msg(op, lang='en')
+# rubocop:disable Metrics/CyclomaticComplexity
+def op_to_ms(op, lang='en')
   if lang == 'en'
     op_selected = case op
                   when '1' then 'Adding'
@@ -51,6 +52,8 @@ def op_to_msg(op, lang='en')
   end
   op_selected
 end
+# rubocop:enable Metrics/CyclomaticComplexity
+
 # prompt(MESSAGES['welcome'])
 prompt(messages('lang_option', language))
 
@@ -58,14 +61,14 @@ language_choice = ""
 loop do
   language_choice = Kernel.gets().chomp().downcase().strip()
   if language_choice.empty? || !(valid_lang?(language_choice))
-    prompt(messages('valid_lang', language)) # when language is empty, method on line 9 cannot use nil.
+    prompt(messages('valid_lang', language))
     next
   elsif valid_lang?(language_choice) && language_choice == language
     language
   elsif valid_lang?(language_choice) && language_choice != language
     language = 'is'
   end
-  break if language == 'en' || language == 'is' 
+  break if language == 'en' || language == 'is'
 end
 prompt(messages('welcome', language))
 
@@ -148,7 +151,7 @@ loop do # main loop
   # prompt(messages('op_to_msg' % \
   # { name_param: operation_to_message(operation) }, LANGUAGE))
   # puts "#{operation_to_message(operation)}"
-  prompt(op_to_msg(operation, language), messages('op_to_msg', language))
+  prompt(op_to_ms(operation, language), messages('op_to_ms', language))
   # prompt(messages('op_to_msg', LANGUAGE))
 
   result = case operation
