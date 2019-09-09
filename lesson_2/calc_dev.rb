@@ -29,10 +29,11 @@ def valid_lang?(lang_format)
   /^[en]+$/.match(lang_format) || /^[is]+$/.match(lang_format)
 end
 
-def valid_name?(name_str)
+def validate_name?(name_str)
   /^[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇ]\p{L}+$/.match(name_str) \
   || /^\p{L}[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇÊ]+$/.match(name_str) \
-  || /^[\p{Arabic}\s\p{N}]+$/.match(name_str)
+  || /^[\p{Arabic}\s\p{N}]+$/.match(name_str) || /[\p{Cyrillic}]/.match(name_str) #\
+  #|| /^[α-ωΑ-Ω\s]*$/
 end
 
 # rubocop:disable Metrics/CyclomaticComplexity
@@ -77,9 +78,9 @@ prompt(messages('welcome', language))
 name = ""
 loop do
   name = Kernel.gets().chomp().strip()
-  if name.empty? || !(valid_name?(name))
-    # prompt(MESSAGES['valid_name'])
-    prompt(messages('valid_name', language))
+  if name.empty? || !(validate_name?(name))
+    # prompt(MESSAGES['validate_name'])
+    prompt(messages('validate_name', language))
   else
     break
   end

@@ -31,8 +31,8 @@ end
 def validate_name?(name_str)
   /^[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇ]\p{L}+$/.match(name_str) \
   || /^\p{L}[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇÊ]+$/.match(name_str) \
-  || /^[\p{Arabic}\s\p{N}]+$/.match(name_str) || /[\p{Cyrillic}]/.match(name_str) \
-  || /^[α-ωΑ-Ω\s]*$/
+  || /^[\p{Arabic}\s\p{N}]+$/.match(name_str) \
+  || /[\p{Cyrillic}]/.match(name_str)
 end
 
 # rubocop:disable Metrics/CyclomaticComplexity

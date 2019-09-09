@@ -1,7 +1,7 @@
 en:
   welcome: "Welcome to Calculator! Enter your name:"
-  valid_name: "Make sure to enter a valid name."
-  valid_lang: "Make sure to enter either 'en' for English or 'is' for Icelandic..."
+  validate_name: "Make sure to enter a valid name."
+  validate_lang: "Make sure to enter either 'en' for English or 'is' for Icelandic..."
   greet: 'Hi %{name_param}!'
   first_number: "What's your 1st number..."
   invalid_number: "ups...looks like that's not a valid number..."
@@ -14,7 +14,7 @@ en:
   result: "The result is %{name_param}"
 is:
   welcome: "Verið velkomin í Reiknivél! Sláðu inn nafnið þitt:"
-  valid_name: "Gakktu úr skugga um að slá inn gilt nafn."
+  validate_name: "Gakktu úr skugga um að slá inn gilt nafn."
   greet: 'Hæ %{name_param}!'
   first_number: "Hvað er fyrsta númerið þitt..."
   invalid_number: "ups...lítur út fyrir að það sé ekki gilt númer..."
