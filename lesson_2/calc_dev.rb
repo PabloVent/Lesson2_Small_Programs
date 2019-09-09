@@ -163,8 +163,10 @@ loop do # main loop
 
   # prompt(MESSAGES['result'] % { name_param: result })
   # prompt(messages("The result is #{result}")
-  prompt("The result is #{result}") if language == 'en'
-  prompt("Niðurstaðan er #{result}") if language == 'is'
+  # prompt("The result is #{result}") if language == 'en'
+  # prompt("Niðurstaðan er #{result}") if language == 'is'
+  prompt(MESSAGES[language]['result'] % { name_param: result })
+
   prompt(messages('continue', language))
 
   continue = Kernel.gets().chomp().strip()

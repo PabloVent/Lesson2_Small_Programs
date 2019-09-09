@@ -12,15 +12,15 @@ def prompt(msg, msg2=nil)
   Kernel.puts "=> #{msg} #{msg2}"
 end
 
-def valid_number?(input)
-  integer?(input) || float?(input)
+def validate_number?(input)
+  validate_integer?(input) || validate_float?(input)
 end
 
-def integer?(input)
+def validate_integer?(input)
   /^-?\d+(\.\d+)?$/.match(input)
 end
 
-def float?(input)
+def validate_float?(input)
   /\d/.match(input) && /^-\d*\.?\d*$/.match(input)
 end
 
@@ -51,6 +51,7 @@ def op_to_ms(op, lang='en')
   end
   op_selected
 end
+
 # rubocop:enable Metrics/CyclomaticComplexity
 prompt(messages('lang_option', language))
 
@@ -87,7 +88,7 @@ loop do # main loop
     prompt(messages('first_number', language))
     first_num = Kernel.gets().chomp().strip()
 
-    if valid_number?(first_num)
+    if validate_number?(first_num)
       break
     else
       prompt(messages('invalid_number', language))
@@ -99,7 +100,7 @@ loop do # main loop
     prompt(messages('second_number', language))
     second_num = Kernel.gets().chomp().strip()
 
-    if valid_number?(second_num)
+    if validate_number?(second_num)
       break
     else
       prompt(messages('invalid_number', language))
@@ -139,15 +140,14 @@ loop do # main loop
   prompt(op_to_ms(operation, language), messages('op_to_ms', language))
 
   result = case operation
-           when '1' then first_num.to_i() + second_num.to_i()
-           when '2' then first_num.to_i() - second_num.to_i()
-           when '3' then first_num.to_i() * second_num.to_i()
+           when '1' then first_num.to_i() + second_num.to_f()
+           when '2' then first_num.to_i() - second_num.to_f()
+           when '3' then first_num.to_i() * second_num.to_f()
            when '4' then first_num.to_f() / second_num.to_f()
            end
 
-  prompt("The result is #{result}") if language == 'en'
-  prompt("Niðurstaðan er #{result}") if language == 'is'
-  prompt(messages('continue', language))
+  prompt(MESSAGES[language]['result'] % { name_param: result })
+  prompt(messages('carry_on', language))
 
   continue = Kernel.gets().chomp().strip()
   break if continue.downcase().start_with?('n') && language == 'en' \
