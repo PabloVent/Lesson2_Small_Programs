@@ -30,7 +30,9 @@ def valid_lang?(lang_format)
 end
 
 def valid_name?(name_str)
-  /^[a-zA-Z]\p{L}+$/.match(name_str) || /^\p{L}[a-zA-Z]+$/.match(name_str)
+  /^[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇ]\p{L}+$/.match(name_str) \
+  || /^\p{L}[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇÊ]+$/.match(name_str) \
+  || /^[\p{Arabic}\s\p{N}]+$/.match(name_str)
 end
 
 # rubocop:disable Metrics/CyclomaticComplexity
