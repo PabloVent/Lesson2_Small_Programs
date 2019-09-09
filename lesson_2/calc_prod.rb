@@ -24,11 +24,11 @@ def validate_float?(input)
   /\d/.match(input) && /^-\d*\.?\d*$/.match(input)
 end
 
-def valid_lang?(lang_format)
+def validate_lang?(lang_format)
   /^[en]+$/.match(lang_format) || /^[is]+$/.match(lang_format)
 end
 
-def valid_name?(name_str)
+def validate_name?(name_str)
   /^[a-zA-Z]\p{L}+$/.match(name_str) || /^\p{L}[a-zA-Z]+$/.match(name_str)
 end
 
@@ -58,12 +58,12 @@ prompt(messages('lang_option', language))
 language_choice = ""
 loop do
   language_choice = Kernel.gets().chomp().downcase().strip()
-  if language_choice.empty? || !(valid_lang?(language_choice))
-    prompt(messages('valid_lang', language))
+  if language_choice.empty? || !(validate_lang?(language_choice))
+    prompt(messages('validate_lang', language))
     next
-  elsif valid_lang?(language_choice) && language_choice == language
+  elsif validate_lang?(language_choice) && language_choice == language
     language
-  elsif valid_lang?(language_choice) && language_choice != language
+  elsif validate_lang?(language_choice) && language_choice != language
     language = 'is'
   end
   break if language == 'en' || language == 'is'
@@ -72,9 +72,9 @@ prompt(messages('welcome', language))
 
 name = ""
 loop do
-  name = Kernel.gets().chomp().strip()
-  if name.empty? || !(valid_name?(name))
-    prompt(messages('valid_name', language))
+  name = Kernel.gets().chomp().capitalize().strip()
+  if name.empty? || !(validate_name?(name))
+    prompt(messages('validate_name', language))
   else
     break
   end
