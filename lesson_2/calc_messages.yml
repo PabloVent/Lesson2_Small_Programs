@@ -6,12 +6,18 @@ en:
   first_number: "What's your 1st number..."
   invalid_number: "ups...looks like that's not a valid number..."
   second_number: "What's your 2nd number..."
+  zero_division: "Don't use zero, division by zero is not allowed..."
   choose_one_option: "You must choose 1, 2, 3 or 4..."
   op_to_ms: 'the two numbers...'
+  option1: 'Adding'
+  option2: 'Subtracting'
+  option3: 'Multiplying'
+  option4: 'Dividing'
   carry_on: "do you want to perform another operation?, say 'Y' if yes, otherwise say 'N'"
   lang_option: "Choose your language / Veldu tungumál (type 'en' for english / 'is' fyrir íslensku)"
   farewell: "Thanks for using calculator, goodbye!!!"
   result: "The result is %{name_param}"
+  exit_options: "Please, choose either 'Y' or 'N'..."
 is:
   welcome: "Verið velkomin í Reiknivél! Sláðu inn nafnið þitt:"
   validate_name: "Gakktu úr skugga um að slá inn gilt nafn."
@@ -19,8 +25,14 @@ is:
   first_number: "Hvað er fyrsta númerið þitt..."
   invalid_number: "ups...lítur út fyrir að það sé ekki gilt númer..."
   second_number: "Hvað er annað númerið þitt..."
+  zero_division: "Ekki nota núll, deild með núlli er ekki leyfð ..."
   choose_one_option: "Þú verður að velja 1, 2, 3 or 4..."
   op_to_ms: 'tölurnar tvær...'
+  option1: 'Bæta við'
+  option2: 'Draga frá'
+  option3: 'Fjölga sér'
+  option4: 'Skipting'
   carry_on: "viltu framkvæma aðra aðgerð?, segðu 'N' ef já,  segja annars 'N'"
   farewell: "Takk fyrir að nota reiknivél, bless!!!"
   result: "Niðurstaðan er %{name_param}"
+  exit_options: "Vinsamlegast veldu annað hvort 'J' eða 'N'..."

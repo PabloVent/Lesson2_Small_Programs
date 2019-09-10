@@ -3,7 +3,7 @@ require 'pry'
 
 language = 'en'
 
-MESSAGES = YAML.load_file('calculator_messages.yml')
+MESSAGES = YAML.load_file('calc_messages.yml')
 
 def messages(message, lang='en')
   MESSAGES[lang][message]
@@ -13,62 +13,60 @@ def prompt(msg, msg2=nil)
   Kernel.puts "=> #{msg} #{msg2}"
 end
 
-def valid_number?(input)
-  integer?(input) || float?(input)
+def validate_number?(input)
+  validate_integer?(input) || validate_float?(input)
 end
 
-def integer?(input)
+def validate_integer?(input)
   /^-?\d+(\.\d+)?$/.match(input)
 end
 
-def float?(input)
+def validate_float?(input)
   /\d/.match(input) && /^-\d*\.?\d*$/.match(input)
 end
 
-def valid_lang?(lang_format)
-  /^[en]+$/.match(lang_format) || /^[is]+$/.match(lang_format)
+# def validate_lang?(lang_format)
+#   /^['en']+$/.match(lang_format) || /^['is']+$/.match(lang_format)
+# end
+
+def validate_lang?(language_choice)
+  lang_format = %w(en is)
+  lang_format.include?(language_choice)
+end
+
+def validate_exit?(choice)
+  choice_format = %w(y n)
+  choice_format.include?(choice)
 end
 
 def validate_name?(name_str)
   /^[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇ]\p{L}+$/.match(name_str) \
   || /^\p{L}[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇÊ]+$/.match(name_str) \
-  || /^[\p{Arabic}\s\p{N}]+$/.match(name_str) || /[\p{Cyrillic}]/.match(name_str) #\
-  #|| /^[α-ωΑ-Ω\s]*$/
+  # || /^[\p{Arabic}\s\p{N}]+$/.match(name_str) \
+  # || /[\p{Cyrillic}]/.match(name_str)
 end
 
-# rubocop:disable Metrics/CyclomaticComplexity
 def op_to_ms(op, lang='en')
-  if lang == 'en'
-    op_selected = case op
-                  when '1' then 'Adding'
-                  when '2' then 'Subtracting'
-                  when '3' then 'Multiplying'
-                  when '4' then 'Dividing'
-                  end
-  else
-    op_selected = case op
-                  when '1' then 'Bæta við'
-                  when '2' then 'Draga frá'
-                  when '3' then 'Fjölga sér'
-                  when '4' then 'Skipting'
-                  end
-  end
+  op_selected = case op
+                when '1' then messages('option1', lang)
+                when '2' then messages('option2', lang)
+                when '3' then messages('option3', lang)
+                when '4' then messages('option4', lang)
+                end
   op_selected
 end
-# rubocop:enable Metrics/CyclomaticComplexity
-
 # prompt(MESSAGES['welcome'])
 prompt(messages('lang_option', language))
 
 language_choice = ""
 loop do
   language_choice = Kernel.gets().chomp().downcase().strip()
-  if language_choice.empty? || !(valid_lang?(language_choice))
-    prompt(messages('valid_lang', language))
+  if language_choice.empty? || !(validate_lang?(language_choice))
+    prompt(messages('validate_lang', language))
     next
-  elsif valid_lang?(language_choice) && language_choice == language
+  elsif validate_lang?(language_choice) && language_choice == language
     language
-  elsif valid_lang?(language_choice) && language_choice != language
+  elsif validate_lang?(language_choice) && language_choice != language
     language = 'is'
   end
   break if language == 'en' || language == 'is'
@@ -77,7 +75,7 @@ prompt(messages('welcome', language))
 
 name = ""
 loop do
-  name = Kernel.gets().chomp().strip()
+  name = Kernel.gets().chomp().capitalize().strip()
   if name.empty? || !(validate_name?(name))
     # prompt(MESSAGES['validate_name'])
     prompt(messages('validate_name', language))
@@ -97,7 +95,7 @@ loop do # main loop
     prompt(messages('first_number', language))
     first_num = Kernel.gets().chomp().strip()
 
-    if valid_number?(first_num)
+    if validate_number?(first_num)
       break
     else
       # prompt(MESSAGES['invalid_number'])
@@ -111,11 +109,12 @@ loop do # main loop
     prompt(messages('second_number', language))
     second_num = Kernel.gets().chomp().strip()
 
-    if valid_number?(second_num)
+    if validate_number?(second_num) && second_num != '0'
       break
-    else
-      # prompt(MESSAGES['invalid_number'])
+    elsif !validate_number?(second_num)
       prompt(messages('invalid_number', language))
+    else
+      prompt(messages('zero_division', language))
     end
   end
 
@@ -155,7 +154,6 @@ loop do # main loop
   # { name_param: operation_to_message(operation) }, LANGUAGE))
   # puts "#{operation_to_message(operation)}"
   prompt(op_to_ms(operation, language), messages('op_to_ms', language))
-  # prompt(messages('op_to_msg', LANGUAGE))
 
   result = case operation
            when '1' then first_num.to_i() + second_num.to_i()
@@ -167,14 +165,15 @@ loop do # main loop
   # prompt(MESSAGES['result'] % { name_param: result })
   # prompt(messages("The result is #{result}")
   # prompt("The result is #{result}") if language == 'en'
-  # prompt("Niðurstaðan er #{result}") if language == 'is'
   prompt(MESSAGES[language]['result'] % { name_param: result })
 
-  prompt(messages('continue', language))
-
-  continue = Kernel.gets().chomp().strip()
-  break if continue.downcase().start_with?('n') && language == 'en' \
-  || continue.downcase().start_with?('n') && language == 'is'
+  continue = ""
+  loop do
+    prompt(messages('carry_on', language))
+    continue = Kernel.gets().chomp().downcase().strip()
+    break if validate_exit?(continue)
+  end
+  break if continue == 'n'
 end
 
 prompt(messages('farewell', language))

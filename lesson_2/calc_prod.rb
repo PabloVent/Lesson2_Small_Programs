@@ -2,7 +2,7 @@ require 'yaml'
 
 language = 'en'
 
-MESSAGES = YAML.load_file('calculator_messages.yml')
+MESSAGES = YAML.load_file('calc_messages.yml')
 
 def messages(message, lang='en')
   MESSAGES[lang][message]
@@ -24,38 +24,31 @@ def validate_float?(input)
   /\d/.match(input) && /^-\d*\.?\d*$/.match(input)
 end
 
-def validate_lang?(lang_format)
-  /^[en]+$/.match(lang_format) || /^[is]+$/.match(lang_format)
+def validate_lang?(language_choice)
+  lang_format = %w(en is)
+  lang_format.include?(language_choice)
+end
+
+def validate_exit?(choice)
+  choice_format = %w(y n)
+  choice_format.include?(choice)
 end
 
 def validate_name?(name_str)
   /^[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇ]\p{L}+$/.match(name_str) \
   || /^\p{L}[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇÊ]+$/.match(name_str) \
-  || /^[\p{Arabic}\s\p{N}]+$/.match(name_str) \
-  || /[\p{Cyrillic}]/.match(name_str)
 end
 
-# rubocop:disable Metrics/CyclomaticComplexity
 def op_to_ms(op, lang='en')
-  if lang == 'en'
-    op_selected = case op
-                  when '1' then 'Adding'
-                  when '2' then 'Subtracting'
-                  when '3' then 'Multiplying'
-                  when '4' then 'Dividing'
-                  end
-  else
-    op_selected = case op
-                  when '1' then 'Bæta við'
-                  when '2' then 'Draga frá'
-                  when '3' then 'Fjölga sér'
-                  when '4' then 'Skipting'
-                  end
-  end
+  op_selected = case op
+                when '1' then messages('option1', lang)
+                when '2' then messages('option2', lang)
+                when '3' then messages('option3', lang)
+                when '4' then messages('option4', lang)
+                end
   op_selected
 end
 
-# rubocop:enable Metrics/CyclomaticComplexity
 prompt(messages('lang_option', language))
 
 language_choice = ""
@@ -103,10 +96,12 @@ loop do # main loop
     prompt(messages('second_number', language))
     second_num = Kernel.gets().chomp().strip()
 
-    if validate_number?(second_num)
+    if validate_number?(second_num) && second_num != '0'
       break
-    else
+    elsif !validate_number?(second_num)
       prompt(messages('invalid_number', language))
+    else
+      prompt(messages('zero_division', language))
     end
   end
 
@@ -143,18 +138,21 @@ loop do # main loop
   prompt(op_to_ms(operation, language), messages('op_to_ms', language))
 
   result = case operation
-           when '1' then first_num.to_i() + second_num.to_f()
-           when '2' then first_num.to_i() - second_num.to_f()
-           when '3' then first_num.to_i() * second_num.to_f()
+           when '1' then first_num.to_i() + second_num.to_i()
+           when '2' then first_num.to_i() - second_num.to_i()
+           when '3' then first_num.to_i() * second_num.to_i()
            when '4' then first_num.to_f() / second_num.to_f()
            end
 
   prompt(MESSAGES[language]['result'] % { name_param: result })
-  prompt(messages('carry_on', language))
 
-  continue = Kernel.gets().chomp().strip()
-  break if continue.downcase().start_with?('n') && language == 'en' \
-  || continue.downcase().start_with?('n') && language == 'is'
+  continue = ""
+  loop do
+    prompt(messages('carry_on', language))
+    continue = Kernel.gets().chomp().downcase().strip()
+    break if validate_exit?(continue)
+  end
+  break if continue == 'n'
 end
 
 prompt(messages('farewell', language))
