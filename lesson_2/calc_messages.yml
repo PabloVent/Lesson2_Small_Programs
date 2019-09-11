@@ -18,6 +18,12 @@ en:
   farewell: "Thanks for using calculator, goodbye!!!"
   result: "The result is %{name_param}"
   exit_options: "Please, choose either 'Y' or 'N'..."
+  operation: >-
+    What operation would you like to perform?
+      1) add
+      2) subtract
+      3) multiply
+      4) divide
 is:
   welcome: "Verið velkomin í Reiknivél! Sláðu inn nafnið þitt:"
   validate_name: "Gakktu úr skugga um að slá inn gilt nafn."
@@ -36,3 +42,9 @@ is:
   farewell: "Takk fyrir að nota reiknivél, bless!!!"
   result: "Niðurstaðan er %{name_param}"
   exit_options: "Vinsamlegast veldu annað hvort 'J' eða 'N'..."
+  operation: >-
+    What operation would you like to perform?
+      1) viðbót
+      2) frádráttur
+      3) margföldun
+      4) deild

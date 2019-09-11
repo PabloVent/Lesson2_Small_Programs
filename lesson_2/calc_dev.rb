@@ -118,25 +118,25 @@ loop do # main loop
     end
   end
 
-  if language == 'en'
-    operator_prompt = <<-MSG
-      What operation would you like to perform?
-        1) add
-        2) subtract
-        3) multiply
-        4) divide
-    MSG
-  elsif language == 'is'
-    operator_prompt = <<-MSG
-      Hvaða aðgerð myndir þú vilja framkvæma?
-        1) viðbót
-        2) frádráttur
-        3) margföldun
-        4) deild
-    MSG
-  end
-
-  prompt(operator_prompt)
+  # if language == 'en'
+  #   operator_prompt = <<-MSG
+  #     What operation would you like to perform?
+  #       1) add
+  #       2) subtract
+  #       3) multiply
+  #       4) divide
+  #   MSG
+  # elsif language == 'is'
+  #   operator_prompt = <<-MSG
+  #     Hvaða aðgerð myndir þú vilja framkvæma?
+  #       1) viðbót
+  #       2) frádráttur
+  #       3) margföldun
+  #       4) deild
+  #   MSG
+  # end
+  prompt(messages('operation', language))
+  # prompt(operator_prompt)
 
   operation = ''
   loop do
