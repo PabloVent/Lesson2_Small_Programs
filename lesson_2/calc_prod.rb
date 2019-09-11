@@ -1,6 +1,6 @@
 require 'yaml'
 
-language = 'en'
+language = "en"
 
 MESSAGES = YAML.load_file('calc_messages.yml')
 
@@ -39,6 +39,35 @@ def validate_name?(name_str)
   || /^\p{L}[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇÊ]+$/.match(name_str) \
 end
 
+def retrieve_language_choice(language, language_choice="")
+  loop do
+    language_choice = Kernel.gets().chomp().downcase().strip()
+    if language_choice.empty? || !(validate_lang?(language_choice))
+      prompt(messages('validate_lang', language))
+      next
+    elsif language_choice == language
+      language
+    else
+      language = 'is'
+    end
+    break if language == 'en' || language == 'is'
+  end
+  language
+end
+
+name = ""
+def retrieve_name(name, language)
+  loop do
+    name = Kernel.gets().chomp().capitalize().strip()
+    if name.empty? || !(validate_name?(name))
+      prompt(messages('validate_name', language))
+    else
+      break
+    end
+  end
+  name
+end
+
 def op_to_ms(op, lang='en')
   op_selected = case op
                 when '1' then messages('option1', lang)
@@ -51,35 +80,15 @@ end
 
 prompt(messages('lang_option', language))
 
-language_choice = ""
-loop do
-  language_choice = Kernel.gets().chomp().downcase().strip()
-  if language_choice.empty? || !(validate_lang?(language_choice))
-    prompt(messages('validate_lang', language))
-    next
-  elsif validate_lang?(language_choice) && language_choice == language
-    language
-  elsif validate_lang?(language_choice) && language_choice != language
-    language = 'is'
-  end
-  break if language == 'en' || language == 'is'
-end
+language = retrieve_language_choice(language)
 prompt(messages('welcome', language))
 
-name = ""
-loop do
-  name = Kernel.gets().chomp().capitalize().strip()
-  if name.empty? || !(validate_name?(name))
-    prompt(messages('validate_name', language))
-  else
-    break
-  end
-end
-
+name = retrieve_name(name, language)
 prompt(MESSAGES[language]['greet'] % { name_param: name })
 
 loop do # main loop
   first_num = ''
+
   loop do
     prompt(messages('first_number', language))
     first_num = Kernel.gets().chomp().strip()
@@ -101,7 +110,7 @@ loop do # main loop
     elsif !validate_number?(second_num)
       prompt(messages('invalid_number', language))
     else
-      prompt(messages('zero_division', language)) # 0.0 bug; it passes.
+      prompt(messages('zero_division', language))
     end
   end
 
