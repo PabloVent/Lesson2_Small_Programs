@@ -55,8 +55,8 @@ def retrieve_language_choice(language, language_choice="")
   language
 end
 
-name = ""
-def retrieve_name(name, language)
+def retrieve_name(language)
+  name = ""
   loop do
     name = Kernel.gets().chomp().capitalize().strip()
     if name.empty? || !(validate_name?(name))
@@ -70,7 +70,7 @@ end
 
 def op_to_ms(op, lang='en')
   op_selected = case op
-                when '1' then messages('option1', lang)
+                when '1' then messages('option1', lang) # adding
                 when '2' then messages('option2', lang)
                 when '3' then messages('option3', lang)
                 when '4' then messages('option4', lang)
@@ -83,36 +83,43 @@ prompt(messages('lang_option', language))
 language = retrieve_language_choice(language)
 prompt(messages('welcome', language))
 
-name = retrieve_name(name, language)
+name = retrieve_name(language)
 prompt(MESSAGES[language]['greet'] % { name_param: name })
 
 loop do # main loop
-  first_num = ''
+  def retrieve_num1(language)
+    first_num = ''
+    loop do
+      prompt(messages('first_number', language))
+      first_num = Kernel.gets().chomp().strip()
 
-  loop do
-    prompt(messages('first_number', language))
-    first_num = Kernel.gets().chomp().strip()
-
-    if validate_number?(first_num)
-      break
-    else
-      prompt(messages('invalid_number', language))
+      if validate_number?(first_num)
+        break
+      else
+        prompt(messages('invalid_number', language))
+      end
     end
+    first_num
   end
+  first_num = retrieve_num1(language)
 
-  second_num = ''
-  loop do
-    prompt(messages('second_number', language))
-    second_num = Kernel.gets().chomp().strip()
+  def retrieve_num2(language)
+    second_num = ''
+    loop do
+      prompt(messages('second_number', language))
+      second_num = Kernel.gets().chomp().strip()
 
-    if validate_number?(second_num) && second_num != '0'
-      break
-    elsif !validate_number?(second_num)
-      prompt(messages('invalid_number', language))
-    else
-      prompt(messages('zero_division', language))
+      if validate_number?(second_num) && second_num != '0'
+        break
+      elsif !validate_number?(second_num)
+        prompt(messages('invalid_number', language))
+      else
+        prompt(messages('zero_division', language))
+      end
     end
+    second_num
   end
+  second_num = retrieve_num2(language)
 
   prompt(messages('operation', language))
 
@@ -137,13 +144,19 @@ loop do # main loop
 
   prompt(MESSAGES[language]['result'] % { name_param: result })
 
-  continue = ""
-  loop do
-    prompt(messages('carry_on', language))
-    continue = Kernel.gets().chomp().downcase().strip()
-    break if validate_exit?(continue)
+  def try_again(language)
+    continue = ""
+    loop do
+      prompt(messages('carry_on', language))
+      continue = Kernel.gets().chomp().downcase().strip()
+      break if validate_exit?(continue)
+    end
+    continue
   end
+  continue = try_again(language)
+
   break if continue == 'n'
+  next if continue == 'y'
 end
 
 prompt(messages('farewell', language))
