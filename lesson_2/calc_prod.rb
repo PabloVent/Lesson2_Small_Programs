@@ -1,4 +1,5 @@
 require 'yaml'
+require 'pry'
 
 language = "en"
 
@@ -29,9 +30,14 @@ def validate_lang?(language_choice)
   lang_format.include?(language_choice)
 end
 
-def validate_exit?(choice)
-  choice_format = %w(y n)
-  choice_format.include?(choice)
+def validate_exit?(choice, language)
+  if language == 'en'
+    choice_format = %w(y n)
+    choice_format.include?(choice)
+  elsif language == 'is'
+    choice_format2 = %w(j n)
+    choice_format2.include?(choice)
+  end
 end
 
 def validate_name?(name_str)
@@ -149,7 +155,7 @@ loop do # main loop
     loop do
       prompt(messages('carry_on', language))
       continue = Kernel.gets().chomp().downcase().strip()
-      break if validate_exit?(continue)
+      break if validate_exit?(continue, language)
     end
     continue
   end
