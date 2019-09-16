@@ -56,8 +56,8 @@ def retrieve_language_choice(language, language_choice="")
   language
 end
 
-name = ""
-def retrieve_name(name, language)
+def retrieve_name(language)
+  name = ""
   loop do
     name = Kernel.gets().chomp().capitalize().strip()
     if name.empty? || !(validate_name?(name))

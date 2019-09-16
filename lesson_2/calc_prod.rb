@@ -90,7 +90,8 @@ language = retrieve_language_choice(language)
 prompt(messages('welcome', language))
 
 name = retrieve_name(language)
-prompt(MESSAGES[language]['greet'] % { name_param: name })
+# prompt(MESSAGES[language]['greet'] % { name_param: name })
+prompt(messages('greet', language) % { name_param: name })
 
 loop do # main loop
   def retrieve_num1(language)

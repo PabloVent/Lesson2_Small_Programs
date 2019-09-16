@@ -1,3 +1,12 @@
+require 'yaml'
+MESSAGES = YAML.load_file('mortgage_calc.yml')
+
+language = "en"
+
+def messages(message, lang)
+  MESSAGES[lang][message]
+end
+
 def prompt(message)
   puts "=> #{message}"
 end
@@ -19,16 +28,16 @@ def validate_float?(input)
   /\d/.match(input) && /^-\d*\.?\d*$/.match(input)
 end
 
-prompt("Welcome to mortgage calculator")
-
-prompt("Please state your first name")
+prompt(messages('welcome', language))
 first_name = Kernel.gets().chomp().capitalize().strip()
 
 
-prompt("Please state your last name")
+prompt(messages('last_name', language))
 last_name = Kernel.gets().chomp().capitalize().strip()
 
 full_name = first_name + " " + last_name
+
+prompt(messages('greet', language) % { name_param: full_name })
 
 loop do
 prompt("Please tell us what loan amount are you applying for")
