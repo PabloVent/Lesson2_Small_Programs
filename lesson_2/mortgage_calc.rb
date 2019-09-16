@@ -5,7 +5,7 @@ end
 def validate_name?(name_str)
   /^[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇ]\p{L}+$/.match(name_str) \
   || /^\p{L}[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇÊ]+$/.match(name_str) \
-end
+end 
 
 def validate_number?(input)
   validate_integer?(input) || validate_float?(input)
