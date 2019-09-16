@@ -1,7 +1,9 @@
 en:
-  welcome: "Welcome to mortgage calculator, please state your first name..."
-  last_name: "Please state your last name"
+  welcome: "Welcome to mortgage calculator, please state your name..."
   greet: "Hi %{name_param}!"
   loan_duration: "Tell us the duration you want to spread your loan over"
   interest_rate: "Tell us the interest rate you're thinking of"
   loan_amount: "Please tell us what loan amount are you applying for"
+  invalid_number: "ups...looks like that's not a valid number..."
+  validate_name: "You need to provide a name"
+  loan_length: "Tell us the duration you want to spread your loan over"
