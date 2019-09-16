@@ -15,7 +15,7 @@ end
 def validate_name?(name_str)
   /^[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇ]\p{L}+$/.match(name_str) \
   || /^\p{L}[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇÊ]+$/.match(name_str) \
-end 
+end
 
 def validate_number?(input)
   validate_integer?(input) || validate_float?(input)
@@ -47,14 +47,13 @@ name = retrieve_name(language)
 prompt(messages('greet', language) % { name_param: name }) # Hi #{name}....
 
 loop do
-
   def retrieve_loan_amount(language)
     loan_amount = ''
     loop do
       prompt(messages('loan_amount', language))
-      loan_amount = Kernel.gets().chomp().strip() 
+      loan_amount = Kernel.gets().chomp().strip()
 
-      if validate_number?(loan_amount)
+      if validate_number?(loan_amount) && loan_amount > '0'
         break
       else
         prompt(messages('invalid_number', language))
@@ -62,57 +61,59 @@ loop do
     end
     loan_amount
   end
-  loan_amount = retrieve_loan_amount(language)                  # loan_amount
+  loan_amount = retrieve_loan_amount(language).to_f
 
   def retrieve_inter_rate(language)
     interest_rate = ''
     loop do
       prompt(messages('interest_rate', language))
-      interest_rate = Kernel.gets().chomp().strip() 
+      prompt(messages('example', language))
+      interest_rate = Kernel.gets().chomp().strip()
 
-      if validate_number?(interest_rate)
+      if validate_number?(interest_rate) && interest_rate > '0'
         break
       else
         prompt(messages('invalid_number', language))
       end
     end
-    interest_rate                                                                   # interest_rate
+    interest_rate                                                                  
   end
-  interest_rate = retrieve_inter_rate(language)
+  interest_rate = retrieve_inter_rate(language).to_f
 
   def retrieve_duration(language)
     loan_duration = ''
     loop do
       prompt(messages('loan_length', language))
-      loan_duration = Kernel.gets().chomp().strip() 
+      loan_duration = Kernel.gets().chomp().strip()
 
-      if validate_number?(loan_duration)
+      if validate_number?(loan_duration) && loan_duration.to_i <= 12 && loan_duration.to_i > 0 
         break
+      elsif loan_duration == '0'
+        prompt(messages('zero_division', language))
       else
         prompt(messages('invalid_number', language))
       end
     end
-    loan_duration                                                                  # loan_duration
+    loan_duration                                                              
   end
   loan_duration = retrieve_duration(language)
 
-  # calculate:
+  break
+end
+
+
+# calculate:
 
   # translate APR in months
-    # annual_interest = interest_rate ÷ 100
-    # month_interest = annual_interest ÷ 12
+    # annual_interest = interest_rate / 100
+    # month_interest = annual_interest / 12
 
   # translate loan duration into months
     # amount_in_months =  loan_duration * 12
 
-  #  calculate monthly payments => m = p * ( j / ( 1 - ( 1 + j ) ** ( -n ) ) )  
+  #  calculate monthly payments => m = p * ( j / ( 1 - ( 1 + j ) ** ( -n ) ) )
 
   # m = monthly payments                 => to be calculated
   # p = loan amount                           => amount_in_months
   # j = monthly interest                    => month_interest
   # n = loan duration in months         => amount_in_months
-  break
-end
-
-
-
