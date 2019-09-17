@@ -1,7 +1,6 @@
 en:
   welcome: "Welcome to mortgage calculator, please state your name..."
   greet: "Hi %{name_param}!"
-  loan_duration: "Tell us the duration you want to spread your loan over"
   interest_rate: "Tell us the interest rate you're thinking of"
   loan_amount: "Please tell us what loan amount are you applying for"
   invalid_number: "ups...looks like that's not a valid entry. Please enter a positive integer"
@@ -11,3 +10,7 @@ en:
   example: "(Example: 5 for 5% or 2.5 for 2.5%)"
   instalment: "Your monthly payment is: £"
   try_again: "Do you want to apply for another loan? please say 'y' or 'n'..."
+  min_amount: "The minimum amount you can borrow is £500"
+  max_period: "You can spread the loan repayment over a maximum time span of 12 years; \
+  the minimum being 1 year.  Enter an integer, otherwise a decimal number \
+  will be rounded off to its closest whole number..."

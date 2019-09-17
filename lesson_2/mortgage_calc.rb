@@ -18,7 +18,7 @@ def validate_name?(name_str)
 end
 
 def validate_number?(number_input)
-  (validate_integer?(number_input) || validate_float?(number_input))
+  validate_integer?(number_input) || validate_float?(number_input)
 end
 
 def validate_integer?(number_input)
@@ -62,10 +62,12 @@ loop do
       loan_amount = Kernel.gets().chomp().strip()
       loan_amount.sub!(/^[0]+/, '') # if 00, doesn't pass valid_number?()
 
-      if validate_number?(loan_amount) && loan_amount > '0'
+      if validate_number?(loan_amount) && loan_amount.to_i >= 500 && loan_amount > '0'
         break
-      else
+      elsif !validate_number?(loan_amount)
         prompt(messages('invalid_number', language))
+      else
+        prompt(messages('min_amount', language))
       end
     end
     loan_amount
@@ -78,6 +80,7 @@ loop do
       prompt(messages('interest_rate', language))
       prompt(messages('example', language))
       interest_rate = Kernel.gets().chomp().strip()
+      interest_rate.sub!(/^[0]+/, '')
 
       if validate_number?(interest_rate) && interest_rate > '0'
         break
@@ -98,10 +101,10 @@ loop do
       if validate_number?(loan_duration) && loan_duration.to_i <= 12 \
         && loan_duration.to_i > 0
         break
-      elsif loan_duration == '0'
+      elsif loan_duration.to_i == 0
         prompt(messages('zero_division', language))
       else
-        prompt(messages('invalid_number', language))
+        prompt(messages('max_period', language))
       end
     end
     loan_duration
