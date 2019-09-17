@@ -17,16 +17,17 @@ def validate_name?(name_str)
   || /^\p{L}[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇÊ]+$/.match(name_str) \
 end
 
-def validate_number?(input)
-  validate_integer?(input) || validate_float?(input)
+def validate_number?(number_input)
+  (validate_integer?(number_input) || validate_float?(number_input))
 end
 
-def validate_integer?(input)
-  /^-?\d+(\.\d+)?$/.match(input)
+def validate_integer?(number_input)
+  (/^-?\d+(\.\d+)?$/.match(number_input)) && !(/^0+\.0+$/ =~ number_input)
 end
 
-def validate_float?(input)
-  /\d/.match(input) && /^-\d*\.?\d*$/.match(input)
+def validate_float?(number_input)
+  /\d/.match(number_input) && /^-\d*\.?\d*$/.match(number_input) \
+  && /^0+\.0+$/ =~ number_input
 end
 
 def retrieve_name(language)
@@ -42,6 +43,13 @@ def retrieve_name(language)
   name
 end
 
+def validate_exit?(choice, language)
+  if language == 'en'
+    choice_format = %w(y n)
+    choice_format.include?(choice)
+  end
+end
+
 prompt(messages('welcome', language)) # Welcome, state your name
 name = retrieve_name(language)
 prompt(messages('greet', language) % { name_param: name }) # Hi #{name}....
@@ -52,6 +60,7 @@ loop do
     loop do
       prompt(messages('loan_amount', language))
       loan_amount = Kernel.gets().chomp().strip()
+      loan_amount.sub!(/^[0]+/, '') # if 00, doesn't pass valid_number?()
 
       if validate_number?(loan_amount) && loan_amount > '0'
         break
@@ -76,7 +85,7 @@ loop do
         prompt(messages('invalid_number', language))
       end
     end
-    interest_rate                                                        
+    interest_rate
   end
   interest_rate = retrieve_inter_rate(language).to_f
 
@@ -95,9 +104,9 @@ loop do
         prompt(messages('invalid_number', language))
       end
     end
-    loan_duration.to_i                                                      
+    loan_duration
   end
-  loan_duration = retrieve_duration(language)
+  loan_duration = retrieve_duration(language).to_i
 
   annual_interest_rate = interest_rate / 100
   month_interest_rate = annual_interest_rate / 12
@@ -107,10 +116,20 @@ loop do
                                   (1 - (1 + month_interest_rate)**\
                                   (- amount_in_months)))
 
-  # prompt("Your monthly payment is: £#{format('%02.2f', monthly_payments)}")
-  prompt(messages('instalment', language), format('%02.2f', monthly_payments))
+  prompt(messages('instalment', language), format('%0.2f', monthly_payments))
 
-  break
+  def try_again(language)
+    continue = ""
+    loop do
+      prompt(messages('try_again', language))
+      continue = Kernel.gets().chomp().downcase().strip()
+      break if validate_exit?(continue, language)
+    end
+    continue
+  end
+  continue = try_again(language)
+  break if continue == 'n'
+  next if continue == 'y'
 end
 
 # m = p * ( j / ( 1 - ( 1 + j ) ** ( -n ) ) )
