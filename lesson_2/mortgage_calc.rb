@@ -50,19 +50,20 @@ def validate_exit?(choice, language)
   end
 end
 
-prompt(messages('welcome', language)) # Welcome, state your name
+prompt(messages('welcome', language))
 name = retrieve_name(language)
-prompt(messages('greet', language) % { name_param: name }) # Hi #{name}....
+prompt(messages('greet', language) % { name_param: name })
 
-loop do
+loop do # main loop
   def retrieve_loan_amount(language)
     loan_amount = ''
     loop do
       prompt(messages('loan_amount', language))
       loan_amount = Kernel.gets().chomp().strip()
-      loan_amount.sub!(/^[0]+/, '') # if 00, doesn't pass valid_number?()
+      loan_amount.sub!(/^[0]+/, '') # if input is 00 => !valid_number?()
 
-      if validate_number?(loan_amount) && loan_amount.to_i >= 500 && loan_amount > '0'
+      if validate_number?(loan_amount) && loan_amount.to_i >= 500 \
+        && loan_amount > '0'
         break
       elsif !validate_number?(loan_amount)
         prompt(messages('invalid_number', language))
@@ -76,16 +77,20 @@ loop do
 
   def retrieve_inter_rate(language)
     interest_rate = ''
+
     loop do
       prompt(messages('interest_rate', language))
       prompt(messages('example', language))
       interest_rate = Kernel.gets().chomp().strip()
       interest_rate.sub!(/^[0]+/, '')
 
-      if validate_number?(interest_rate) && interest_rate > '0'
+      if (validate_number?(interest_rate) && interest_rate.to_f > 0) \
+        && (interest_rate.to_f <= 50)
         break
+      elsif !validate_number?(interest_rate)
+        prompt(messages('invalid_rate', language))
       else
-        prompt(messages('invalid_number', language))
+        prompt(messages('max_int_rate', language))
       end
     end
     interest_rate
@@ -95,14 +100,15 @@ loop do
   def retrieve_duration(language)
     loan_duration = ''
     loop do
-      prompt(messages('loan_length', language))
+      prompt(messages('loan_entry', language))
       loan_duration = Kernel.gets().chomp().strip()
+      loan_duration.sub!(/^[0]+/, '')
 
-      if validate_number?(loan_duration) && loan_duration.to_i <= 12 \
+      if validate_number?(loan_duration) && loan_duration.to_i <= 20 \
         && loan_duration.to_i > 0
         break
       elsif loan_duration.to_i == 0
-        prompt(messages('zero_division', language))
+        prompt(messages('zero_entry', language))
       else
         prompt(messages('max_period', language))
       end
@@ -135,9 +141,6 @@ loop do
   next if continue == 'y'
 end
 
-# m = p * ( j / ( 1 - ( 1 + j ) ** ( -n ) ) )
-
-# m = monthly payments                 => to be calculated
-# p = loan amount                           => amount applied for
-# j = monthly interest                    => month_interest
-# n = loan duration in months         => amount_in_months
+prompt(messages('farewell', language))
+sleep(0.7)
+Gem.win_platform? ? (system "cls") : (system "clear") # for Windows and Unix.
