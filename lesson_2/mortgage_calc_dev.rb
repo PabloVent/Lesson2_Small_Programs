@@ -6,6 +6,7 @@ MESSAGES = YAML.load_file('mortgage_calc.yml')
 language = "en"
 
 def validate_number?(number_input)
+  number_input.sub!(/^[0]+/, '')
   validate_integer?(number_input) || validate_float?(number_input)
 end
 
@@ -82,7 +83,6 @@ def retrieve_inter_rate(language)
     prompt(messages('interest_rate', language))
     prompt(messages('example', language))
     interest_rate = Kernel.gets().chomp().strip()
-    interest_rate.sub!(/^[0]+/, '')
 
     if (validate_number?(interest_rate) && interest_rate.to_f > 0) \
       && (interest_rate.to_f <= 50)
@@ -101,7 +101,6 @@ def retrieve_duration(language)
   loop do
     prompt(messages('loan_entry', language))
     loan_duration = Kernel.gets().chomp().strip()
-    loan_duration.sub!(/^[0]+/, '')
 
     if validate_number?(loan_duration) && loan_duration.to_i <= 20 \
       && loan_duration.to_i > 0
