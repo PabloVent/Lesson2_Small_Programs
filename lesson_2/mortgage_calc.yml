@@ -5,8 +5,9 @@ en:
   The maximum is 50% in UK law, the mimimum accepted is 1%"
   loan_amount: "Please tell us what loan amount are you applying for (don't use commas, thanks)"
   amount_empty: "You must provide an amount..."
-  validate_name: "You need to provide a valid name"
-  loan_entry: "Tell us the duration you want to spread your loan over (in years), the limit is 20 years"
+  validate_name: "You need to provide a valid name and the name needs to be at least 2 characters long"
+  loan_entry: "Tell us the duration you want to spread your loan over (in years), the limit is 20 years. \
+  Enter an integer though, otherwise a decimal number will be rounded off to its closest whole number..."
   zero_entry: "Ups...you either provided an invalid entry or none at all, please provide a positive number"
   example: "(Example: 5 for 5% or 2.5 for 2.5%)"
   instalment: "Your monthly payment is: £"
@@ -15,9 +16,7 @@ en:
   min_amount: "The minimum amount you can borrow is £500"
   max_int_rate: "Remember, the maximum interest rate allowed by law in the UK is 50%, \
   the minimum accepted is 1%"
-  max_period: "You can spread the loan repayment over a maximum time span of 20 years; \
-  the minimum being 1 year.  Enter an integer, otherwise a decimal number \
-  will be rounded off to its closest whole number..."
+  max_period: "You can spread the loan repayment over a maximum time span of 20 years; the minimum being 1 year."
   invalid_number: "ups...looks like that's either not a valid amount or you didn't provide an amount. \
   Please enter a positive integer"
   invalid_rate: "ups...looks like that's either not a valid interest rate or you didn't provide one. \

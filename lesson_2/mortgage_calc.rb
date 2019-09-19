@@ -1,4 +1,5 @@
 require 'yaml'
+require 'pry'
 
 MESSAGES = YAML.load_file('mortgage_calc.yml')
 
@@ -13,8 +14,8 @@ def prompt(message, msg2=nil)
 end
 
 def validate_name?(name_str)
-  /^[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇ]\p{L}+$/.match(name_str) \
-  || /^\p{L}[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇÊ]+$/.match(name_str) \
+  !(name_str.empty?) && (/^[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇ]\p{L}+$/.match(name_str) \
+  || /^\p{L}[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇÊ]+$/.match(name_str))
 end
 
 def validate_number?(number_input)
@@ -34,7 +35,8 @@ def retrieve_name(language)
   name = ""
   loop do
     name = Kernel.gets().chomp().strip().capitalize()
-    if name.empty? || !(validate_name?(name))
+    if !(validate_name?(name))
+      binding.pry
       prompt(messages('validate_name', language))
     else
       break
@@ -106,6 +108,7 @@ loop do # main loop
 
       if validate_number?(loan_duration) && loan_duration.to_i <= 20 \
         && loan_duration.to_i > 0
+        # binding.pry
         break
       elsif loan_duration.to_i == 0
         prompt(messages('zero_entry', language))
@@ -138,7 +141,6 @@ loop do # main loop
   end
   continue = try_again(language)
   break if continue == 'n'
-  next if continue == 'y'
 end
 
 prompt(messages('farewell', language))
