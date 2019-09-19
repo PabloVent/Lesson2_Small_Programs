@@ -40,8 +40,9 @@ def retrieve_name(language)
 end
 
 def validate_name?(name_str)
-  !(name_str.empty?) && (/^[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇ]\p{L}+$/.match(name_str) \
-  || /^\p{L}[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇÊ]+$/.match(name_str))
+  !(name_str.empty?) && \
+    (/^[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇ]\p{L}+$/.match(name_str) \
+    || /^\p{L}[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇÊ]+$/.match(name_str))
 end
 
 def validate_exit?(choice, language)
@@ -140,9 +141,8 @@ loop do # main loop
 
   prompt(messages('instalment', language), format('%0.2f', monthly_payments))
 
-
   continue = try_again(language)
-  break if continue == 'n' #|| continue == 'y'
+  break if continue == 'n'
 end
 
 prompt(messages('farewell', language))
