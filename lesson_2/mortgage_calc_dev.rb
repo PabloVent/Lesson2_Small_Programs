@@ -62,7 +62,6 @@ def retrieve_loan_amount(language)
   loop do
     prompt(messages('loan_amount', language))
     loan_amount = Kernel.gets().chomp().strip()
-    loan_amount.sub!(/^[0]+/, '') # if input is 00 => !valid_number?()
 
     if validate_number?(loan_amount) && loan_amount.to_i >= 500 \
       && loan_amount > '0'
@@ -84,13 +83,11 @@ def retrieve_inter_rate(language)
     prompt(messages('example', language))
     interest_rate = Kernel.gets().chomp().strip()
 
-    if (validate_number?(interest_rate) && interest_rate.to_f > 0) \
-      && (interest_rate.to_f <= 50)
+    if validate_number?(interest_rate) && interest_rate.to_f > 0 \
+      && interest_rate.to_f <= 50
       break
     elsif !validate_number?(interest_rate)
       prompt(messages('invalid_rate', language))
-    else
-      prompt(messages('max_int_rate', language))
     end
   end
   interest_rate
