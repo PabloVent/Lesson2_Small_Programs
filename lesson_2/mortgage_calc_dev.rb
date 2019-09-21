@@ -54,13 +54,15 @@ def validate_exit?(choice, language)
 end
 
 prompt(messages('welcome', language))
+binding.pry
 name = retrieve_name(language)
+
 prompt(messages('greet', language) % { name_param: name })
 
 def retrieve_loan_amount(language)
   loan_amount = ''
   loop do
-    prompt(messages('loan_amount', language))
+    prompt(messages('loan_amount', language)) # 1
     loan_amount = Kernel.gets().chomp().strip()
 
     if validate_number?(loan_amount) && loan_amount.to_i >= 500 \
@@ -87,7 +89,7 @@ def retrieve_inter_rate(language)
       && interest_rate.to_f <= 50
       break
     elsif !validate_number?(interest_rate)
-      prompt(messages('invalid_rate', language))
+      prompt(messages('invalid_rate', language)) # 2
     end
   end
   interest_rate
@@ -96,9 +98,8 @@ end
 def retrieve_duration(language)
   loan_duration = ''
   loop do
-    prompt(messages('loan_entry', language))
+    prompt(messages('loan_entry', language)) # 3
     loan_duration = Kernel.gets().chomp().strip()
-
     if validate_number?(loan_duration) && loan_duration.to_i <= 20 \
       && loan_duration.to_i > 0
       break
