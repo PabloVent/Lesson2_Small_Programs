@@ -120,7 +120,6 @@ def try_again(language)
   continue
 end
 
-# continue = ""
 loop do # main loop
   loan_amount = retrieve_loan_amount(language).to_f
   interest_rate = retrieve_inter_rate(language).to_f

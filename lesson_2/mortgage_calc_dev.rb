@@ -54,7 +54,7 @@ def validate_exit?(choice, language)
 end
 
 prompt(messages('welcome', language))
-binding.pry
+
 name = retrieve_name(language)
 
 prompt(messages('greet', language) % { name_param: name })
