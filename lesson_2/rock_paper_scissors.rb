@@ -1,3 +1,5 @@
+require 'pry'
+
 VALID_CHOICES = ['rock', 'paper', 'scissors']
 
 def prompt(message)
@@ -20,8 +22,8 @@ def display_results(player, computer)
   end
 end
 
-loop do
-  choice = ''
+def validate_choice(choice_input)
+  choice = ""
   loop do
     prompt("Choose one: #{VALID_CHOICES.join(', ')}")
     choice = Kernel.gets().chomp()
@@ -32,7 +34,11 @@ loop do
       prompt("That's not valid choice.")
     end
   end
+  choice
+end
 
+loop do
+  choice = validate_choice(choice)
   computer_choice = VALID_CHOICES.sample
 
   prompt("You chose: '#{choice}' and computer chose '#{computer_choice}'")

@@ -6,40 +6,24 @@ def prompt(message)
   Kernel.puts("=> #{message}")
 end
 
-def self_win(player, computer)
-  if (player == 'rock' && computer == 'scissors') \
-    || (player == 'scissors' && computer == 'paper') \
-    || (player == 'paper' && computer == 'rock')
-    true
-  end
-end
-
-def computer_win(player, computer)
-  if (computer == 'rock' && player == 'scissors') \
-    || (computer == 'scissors' && player == 'paper') \
-    || (computer == 'paper' && player == 'rock')
-    true
-  end
-end
-
-def tie(player, computer)
-  if self_win(player, computer) && computer_win(player, computer)
-    true
-  end
+def win?(first, second)
+  (first == 'rock' && second == 'scissors') \
+    || (first == 'scissors' && second == 'paper') \
+    || (first == 'paper' && second == 'rock')
 end
 
 def display_results(player, computer)
-  if self_win(player, computer)
+  if win?(player, computer)
     prompt("You won.")
-  elsif computer_win(player, computer)
+  elsif win?(computer, player)
     prompt("computer won.")
   else
     prompt("It's a tie.")
   end
 end
 
-loop do
-  choice = ''
+def validate_choice(choice_input)
+  choice = ""
   loop do
     prompt("Choose one: #{VALID_CHOICES.join(', ')}")
     choice = Kernel.gets().chomp()
@@ -50,7 +34,11 @@ loop do
       prompt("That's not valid choice.")
     end
   end
+  choice
+end
 
+loop do
+  choice = validate_choice(choice)
   computer_choice = VALID_CHOICES.sample
 
   prompt("You chose: '#{choice}' and computer chose '#{computer_choice}'")
