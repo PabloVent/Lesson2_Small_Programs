@@ -1,19 +1,37 @@
+require 'pry'
+
 VALID_CHOICES = ['rock', 'paper', 'scissors']
 
 def prompt(message)
   Kernel.puts("=> #{message}")
 end
 
-def win?(first, second)
-  (first == 'rock' && second == 'scissors') \
-    || (first == 'scissors' && second == 'paper') \
-    || (first == 'paper' && second == 'rock')
+def self_win(player, computer)
+  if (player == 'rock' && computer == 'scissors') \
+    || (player == 'scissors' && computer == 'paper') \
+    || (player == 'paper' && computer == 'rock')
+    true
+  end
+end
+
+def computer_win(player, computer)
+  if (computer == 'rock' && player == 'scissors') \
+    || (computer == 'scissors' && player == 'paper') \
+    || (computer == 'paper' && player == 'rock')
+    true
+  end
+end
+
+def tie(player, computer)
+  if self_win(player, computer) && computer_win(player, computer)
+    true
+  end
 end
 
 def display_results(player, computer)
-  if win?(player, computer)
+  if self_win(player, computer)
     prompt("You won.")
-  elsif win?(computer, player)
+  elsif computer_win(player, computer)
     prompt("computer won.")
   else
     prompt("It's a tie.")
