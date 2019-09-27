@@ -1,7 +1,7 @@
 require 'pry'
 
 VALID_CHOICES = ['rock', 'paper', 'scissors']
-
+binding.pry
 def prompt(message)
   Kernel.puts("=> #{message}")
 end

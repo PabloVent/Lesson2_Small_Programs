@@ -16,9 +16,9 @@ INFORMAL PSEUDO CODE
 
 Create a method that takes two integers and add them
   - access the integers in the method and add them up.
-  - return the result of the addition 
+  - return the result of the addition
   - call the method and output the result.
-        
+
 FORMAL PSEUDO CODE
 
 START
@@ -39,17 +39,17 @@ puts adder(3, 5)
 
 INFORMAL PSEUDO CODE
 
-Given a collection of strings 
+Given a collection of strings
 
-Iterate through it one by one 
+Iterate through it one by one
  - save the first value in a var as the starting value
   - for each iteration, concatinate the subsequent value to the starting value
 after iterating through the entire collection, return the saved value.
 
 FORMAL PSEUDO CODE
 
-START 
-# Given a collection of strings 
+START
+# Given a collection of strings
 SET saved_str = empty string
 SET iterator = 1
 
@@ -62,13 +62,13 @@ END
 
 def concat_str(arr)
   saved_str = ""
-  arr.each do |word| 
+  arr.each do |word|
     saved_str += word
   end
-  saved_str 
+  saved_str
 end
 
-p concat_str(['hi', 'how', 'are', 'you']) 
+p concat_str(['hi', 'how', 'are', 'you'])
 
 
 3) a method that takes an array of integers, and returns a new array with every other element
@@ -95,8 +95,8 @@ SET new_arr = empty
 SET idx_position = 0
 
 WHILE iterator <= array length
-  
-  IF iterator is odd # (or even)
+
+  IF iterator is odd (or even)
     new_arr << idx_position value
   ELSE
     move to the next iteration by
@@ -133,7 +133,7 @@ arr1 = [13234, 6, 0, 222, 45, 1346, 0, 99, 8]
 
 def find_greatest(arr)
   idx = 0
-  saved_number = arr.first 
+  saved_number = arr.first
 
   while  idx <= arr.size - 1
     current_number = arr[idx] # this corresponds to the block variable in an iterator construct.
@@ -143,10 +143,9 @@ def find_greatest(arr)
       next
     elsif
       saved_number = current_number
-    else 
+    else
       return if numbers.nil?
     end
-    idx += 1
   end
   p saved_number
 end
