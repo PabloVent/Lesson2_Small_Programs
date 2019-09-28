@@ -54,7 +54,7 @@ SET saved_str = empty string
 SET iterator = 1
 
 WHILE iterator <= collection size
-  saved_str = saved_string + iterator value @ position 0 (first iteration)
+  saved_str = saved_str + element value @ position 0 (first iteration...)
   iterator = iterator + 1
 
   PRINT saved_str
@@ -69,6 +69,21 @@ def concat_str(arr)
 end
 
 p concat_str(['hi', 'how', 'are', 'you'])
+
+or explicit iteration
+
+idx = 0
+saved_str = ""
+
+arr = ['hi', 'how', 'are', 'you']
+
+loop do
+  saved_str += arr[idx]
+  idx += 1
+  break if idx == arr.size
+end
+
+puts saved_str
 
 
 3) a method that takes an array of integers, and returns a new array with every other element
@@ -124,6 +139,14 @@ end
 
 p skip_elem([12, 42, 101, 45, 99, 2345, 123])
 
+or using iterators:
+
+def skip_elem(arr)
+  arr.select.with_index{ |_, i| i.even? } # or i.odd?
+end
+
+test_arr = [12, 42, 101, 45, 99, 2345, 123]
+puts skip_elem(test_arr).inspect
 
 
 
