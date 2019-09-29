@@ -1,8 +1,9 @@
 require 'yaml'
+require 'pry'
 
 language = "en"
 
-MESSAGES = YAML.load_file('calc_messages.yml')
+MESSAGES = YAML.load_file 'calc_messages.yml'
 
 def messages(message, lang='en')
   MESSAGES[lang][message]
@@ -13,6 +14,7 @@ def prompt(msg, msg2=nil)
 end
 
 def validate_number?(input)
+  input.sub!(/^[0]+/, '')
   validate_integer?(input) || validate_float?(input)
 end
 
@@ -29,6 +31,11 @@ def validate_lang?(language_choice)
   lang_format.include?(language_choice)
 end
 
+def validate_name?(name_str)
+  /^[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇ]\p{L}+$/.match(name_str) \
+  || /^\p{L}[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇÊ]+$/.match(name_str) \
+end
+
 def validate_exit?(choice, language)
   if language == 'en'
     choice_format = %w(y n)
@@ -37,11 +44,6 @@ def validate_exit?(choice, language)
     choice_format2 = %w(j n)
     choice_format2.include?(choice)
   end
-end
-
-def validate_name?(name_str)
-  /^[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇ]\p{L}+$/.match(name_str) \
-  || /^\p{L}[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇÊ]+$/.match(name_str) \
 end
 
 def retrieve_language_choice(language, language_choice="")
@@ -75,7 +77,7 @@ end
 
 def op_to_ms(op, lang='en')
   op_selected = case op
-                when '1' then messages('option1', lang) # adding
+                when '1' then messages('option1', lang)
                 when '2' then messages('option2', lang)
                 when '3' then messages('option3', lang)
                 when '4' then messages('option4', lang)
@@ -83,52 +85,45 @@ def op_to_ms(op, lang='en')
   op_selected
 end
 
-prompt(messages('lang_option', language))
+prompt messages('lang_option', language)
 
 language = retrieve_language_choice(language)
 prompt(messages('welcome', language))
 
 name = retrieve_name(language)
-# prompt(MESSAGES[language]['greet'] % { name_param: name })
 prompt(messages('greet', language) % { name_param: name })
 
-loop do # main loop
-  def retrieve_num1(language)
-    first_num = ''
-    loop do
-      prompt(messages('first_number', language))
-      first_num = Kernel.gets().chomp().strip()
+def retrieve_num1(language)
+  first_num = ''
+  loop do
+    prompt(messages('first_number', language))
+    first_num = Kernel.gets().chomp().strip()
 
-      if validate_number?(first_num)
-        break
-      else
-        prompt(messages('invalid_number', language))
-      end
+    if validate_number?(first_num)
+      break
+    else
+      prompt messages('invalid_number', language)
     end
-    first_num
   end
-  first_num = retrieve_num1(language)
+  first_num
+end
 
-  def retrieve_num2(language)
-    second_num = ''
-    loop do
-      prompt(messages('second_number', language))
-      second_num = Kernel.gets().chomp().strip()
+def retrieve_num2(language)
+  second_num = ''
+  loop do
+    prompt(messages('second_number', language))
+    second_num = Kernel.gets().chomp().strip()
 
-      if validate_number?(second_num) && second_num != '0'
-        break
-      elsif !validate_number?(second_num)
-        prompt(messages('invalid_number', language))
-      else
-        prompt(messages('zero_division', language))
-      end
+    if validate_number?(second_num)
+      break
+    else
+      prompt(messages('invalid_number', language))
     end
-    second_num
   end
-  second_num = retrieve_num2(language)
+  second_num
+end
 
-  prompt(messages('operation', language))
-
+def retrieve_op(language)
   operation = ''
   loop do
     operation = Kernel.gets().chomp().strip()
@@ -138,6 +133,25 @@ loop do # main loop
       prompt(messages('choose_one_option', language))
     end
   end
+  operation
+end
+
+def try_again(language)
+  continue = ""
+  loop do
+    prompt(messages('carry_on', language))
+    continue = Kernel.gets().chomp().downcase().strip()
+    break if validate_exit?(continue, language)
+  end
+  continue
+end
+
+loop do # main loop
+  first_num = retrieve_num1(language).to_f
+  second_num = retrieve_num2(language).to_f
+
+  prompt(messages('operation', language))
+  operation = retrieve_op(language) # '1', '2', '3' or '4'.
 
   prompt(op_to_ms(operation, language), messages('op_to_ms', language))
 
@@ -150,19 +164,8 @@ loop do # main loop
 
   prompt(MESSAGES[language]['result'] % { name_param: result })
 
-  def try_again(language)
-    continue = ""
-    loop do
-      prompt(messages('carry_on', language))
-      continue = Kernel.gets().chomp().downcase().strip()
-      break if validate_exit?(continue, language)
-    end
-    continue
-  end
   continue = try_again(language)
-
   break if continue == 'n'
-  next if continue == 'y'
 end
 
-prompt(messages('farewell', language))
+prompt messages 'farewell', language

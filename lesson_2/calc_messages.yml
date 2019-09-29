@@ -1,6 +1,6 @@
 en:
   welcome: "Welcome to Calculator! Enter your name:"
-  validate_name: "Make sure to enter a valid name."
+  validate_name: "Make sure to enter a valid name of at least 2 letters"
   validate_lang: "Make sure to enter either 'en' for English or 'is' for Icelandic..."
   greet: 'Hi %{name_param}!'
   first_number: "What's your 1st number..."
