@@ -15,7 +15,7 @@ end
 
 def validate_number? input
   input.sub!(/^[0]+/, '')
-  validate_integer?(input) || validate_float?(input)
+  validate_float?(input) || validate_integer?(input)
 end
 
 def validate_integer? input
@@ -23,17 +23,12 @@ def validate_integer? input
 end
 
 def validate_float? input
-  /\d/.match(input) && /^-\d*\.?\d*$/.match(input)
+  /\d/.match(input) && /^\d*\.?\d*$/.match(input)
 end
 
 def validate_lang? language_choice
   lang_format = %w(en is)
   lang_format.include? language_choice
-end
-
-def validate_exit? choice, language
-  choice_format = %w(y n)
-  choice_format.include? choice
 end
 
 def validate_name? name_str
@@ -103,7 +98,7 @@ def retrieve_num1 language
   loop do
     prompt messages 'first_number', language
     first_num = Kernel.gets().chomp().strip()
-
+    # binding.pry
     if validate_number? first_num
       break
     else
@@ -161,9 +156,9 @@ loop do # main loop
   prompt(op_to_ms(operation, language), messages('op_to_ms', language)) # {..} the 2 numbers
 
   result = case operation
-           when '1' then first_num.to_i() + second_num.to_i()
-           when '2' then first_num.to_i() - second_num.to_i()
-           when '3' then first_num.to_i() * second_num.to_i()
+           when '1' then first_num.to_i() + second_num.to_f()
+           when '2' then first_num.to_i() - second_num.to_f()
+           when '3' then first_num.to_i() * second_num.to_f()
            when '4' then first_num.to_f() / second_num.to_f()
            end
 

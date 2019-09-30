@@ -23,7 +23,7 @@ def validate_integer?(input)
 end
 
 def validate_float?(input)
-  /\d/.match(input) && /^-\d*\.?\d*$/.match(input)
+  /\d/.match(input) && /^\d*\.?\d*$/.match(input)
 end
 
 def validate_lang?(language_choice)
