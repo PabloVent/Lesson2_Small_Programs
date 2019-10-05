@@ -4,7 +4,7 @@ require 'pry'
 language = "en"
 
 MESSAGES = YAML.load_file 'calc_messages.yml'
-
+# binding.pry
 def messages(message, lang='en')
   MESSAGES[lang][message]
 end
@@ -85,7 +85,7 @@ def op_to_ms(op, lang='en')
   op_selected
 end
 
-prompt messages('lang_option', language)
+prompt(messages('lang_option', language))
 
 language = retrieve_language_choice(language)
 prompt(messages('welcome', language))
@@ -168,4 +168,4 @@ loop do # main loop
   break if continue == 'n'
 end
 
-prompt messages 'farewell', language
+prompt(messages('farewell', language))

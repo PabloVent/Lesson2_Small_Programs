@@ -2,7 +2,7 @@ require 'yaml'
 require 'pry'
 
 MESSAGES = YAML.load_file('mortgage_calc.yml')
-
+# binding.pry
 language = "en"
 
 def validate_number?(number_input)
@@ -27,19 +27,6 @@ def prompt(message, msg2=nil)
   puts "=> #{message}#{msg2}"
 end
 
-def retrieve_name(language)
-  name = ""
-  loop do
-    name = Kernel.gets().chomp().strip().capitalize()
-    if !(validate_name?(name))
-      prompt(messages('validate_name', language))
-    else
-      break
-    end
-  end
-  name
-end
-
 def validate_name?(name_str)
   !(name_str.empty?) && \
     (/^[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇ]\p{L}+$/.match(name_str) \
@@ -53,11 +40,18 @@ def validate_exit?(choice, language)
   end
 end
 
-prompt(messages('welcome', language))
-
-name = retrieve_name(language)
-
-prompt(messages('greet', language) % { name_param: name })
+def retrieve_name(language)
+  name = ""
+  loop do
+    name = Kernel.gets().chomp().strip().capitalize()
+    if !(validate_name?(name))
+      prompt(messages('validate_name', language))
+    else
+      break
+    end
+  end
+  name
+end
 
 def retrieve_loan_amount(language)
   loan_amount = ''
@@ -122,7 +116,11 @@ def try_again(language)
   continue
 end
 
-# continue = ""
+prompt(messages('welcome', language))
+
+name = retrieve_name(language)
+prompt(messages('greet', language) % { name_param: name })
+
 loop do # main loop
   loan_amount = retrieve_loan_amount(language).to_f
   interest_rate = retrieve_inter_rate(language).to_f

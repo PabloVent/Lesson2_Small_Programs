@@ -4,6 +4,7 @@ require 'pry'
 language = "en"
 
 MESSAGES = YAML.load_file 'calc_messages.yml'
+# puts MESSAGES.inspect
 
 def messages message, lang='en'
   MESSAGES[lang][message]

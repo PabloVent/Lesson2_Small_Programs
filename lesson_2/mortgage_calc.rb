@@ -26,19 +26,6 @@ def prompt(message, msg2=nil)
   puts "=> #{message}#{msg2}"
 end
 
-def retrieve_name(language)
-  name = ""
-  loop do
-    name = Kernel.gets().chomp().strip().capitalize()
-    if !(validate_name?(name))
-      prompt(messages('validate_name', language))
-    else
-      break
-    end
-  end
-  name
-end
-
 def validate_name?(name_str)
   !(name_str.empty?) && \
     (/^[a-zA-ZŒÂÊÁËÈØÅÍÎÏÌÓÔÒÚÆŸÛÙÇ]\p{L}+$/.match(name_str) \
@@ -52,14 +39,23 @@ def validate_exit?(choice, language)
   end
 end
 
-prompt(messages('welcome', language))
-name = retrieve_name(language)
-prompt(messages('greet', language) % { name_param: name })
+def retrieve_name(language)
+  name = ""
+  loop do
+    name = Kernel.gets().chomp().strip().capitalize()
+    if !(validate_name?(name))
+      prompt(messages('validate_name', language))
+    else
+      break
+    end
+  end
+  name
+end
 
 def retrieve_loan_amount(language)
   loan_amount = ''
   loop do
-    prompt(messages('loan_amount', language))
+    prompt(messages('loan_amount', language)) # 1
     loan_amount = Kernel.gets().chomp().strip()
 
     if validate_number?(loan_amount) && loan_amount.to_i >= 500 \
@@ -86,7 +82,7 @@ def retrieve_inter_rate(language)
       && interest_rate.to_f <= 50
       break
     elsif !validate_number?(interest_rate)
-      prompt(messages('invalid_rate', language))
+      prompt(messages('invalid_rate', language)) # 2
     end
   end
   interest_rate
@@ -95,9 +91,8 @@ end
 def retrieve_duration(language)
   loan_duration = ''
   loop do
-    prompt(messages('loan_entry', language))
+    prompt(messages('loan_entry', language)) # 3
     loan_duration = Kernel.gets().chomp().strip()
-
     if validate_number?(loan_duration) && loan_duration.to_i <= 20 \
       && loan_duration.to_i > 0
       break
@@ -119,6 +114,11 @@ def try_again(language)
   end
   continue
 end
+
+prompt(messages('welcome', language))
+
+name = retrieve_name(language)
+prompt(messages('greet', language) % { name_param: name })
 
 loop do # main loop
   loan_amount = retrieve_loan_amount(language).to_f
