@@ -1,3 +1,7 @@
+# All this goes back to one bit of advice: a method should do one thing, and
+# be named appropriately. If you can treat a method as a "black box", then
+# it's a well designed method.
+
 require 'yaml'
 require 'pry'
 
@@ -15,7 +19,7 @@ def validate_integer?(number_input)
 end
 
 def validate_float?(number_input)
-  /\d/.match(number_input) && /^-\d*\.?\d*$/.match(number_input) \
+  /\d/.match(number_input) && /^\d*\.?\d*$/.match(number_input) \
   && /^0+\.0+$/ =~ number_input
 end
 

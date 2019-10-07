@@ -14,7 +14,7 @@ def validate_integer?(number_input)
 end
 
 def validate_float?(number_input)
-  /\d/.match(number_input) && /^-\d*\.?\d*$/.match(number_input) \
+  /\d/.match(number_input) && /^\d*\.?\d*$/.match(number_input) \
   && /^0+\.0+$/ =~ number_input
 end
 
